@@ -1,0 +1,13 @@
+.DS_Store
+*.sublime-project
+*.sublime-settings
+*.sublime-workspace
+apex-scripts/
+build/
+config/
+debug/
+deploy/
+node_modules/
+reports/
+mm.log
+.idea
