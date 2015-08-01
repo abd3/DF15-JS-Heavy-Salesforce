@@ -17,8 +17,21 @@
         <name>ApexTrigger</name>
     </types>
     <types>
+        <members>JS_heavy_SF_App</members>
+        <name>CustomApplication</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>CustomTab</name>
+    </types>
+    <types>
+        <members>Admin</members>
+        <members>Standard</members>
+        <name>Profile</name>
+    </types>
+    <types>
         <members>*</members>
         <name>StaticResource</name>
     </types>
-    <version>33.0</version>
+    <version>34.0</version>
 </Package>
