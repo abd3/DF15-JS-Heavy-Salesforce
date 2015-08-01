@@ -1,3 +1,6 @@
 <apex:page showHeader="true" sidebar="true">
-	
+  <script src="js/jquery-1.10.2.js"></script>
+  <script src="{!URLFOR($Resource.demo1_js, 'js/demo1.js')}"></script>
+  <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.demo1_js, 'css/demo1.css')}"></link>
+
 </apex:page>
