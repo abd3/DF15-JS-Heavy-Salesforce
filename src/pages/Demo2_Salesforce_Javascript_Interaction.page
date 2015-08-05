@@ -1,3 +1,140 @@
-<apex:page showHeader="true" sidebar="true">
-	
+<apex:page >
+   
+    <!-- Remote Objects definition to set accessible sObjects and fields -->
+    <apex:remoteObjects >
+        <apex:remoteObjectModel name="Account" jsShorthand="acct" 
+            fields="Name,Id,website,Site,CreatedDate">
+        </apex:remoteObjectModel>
+    </apex:remoteObjects>
+
+    <button onclick="fetchAccounts()">Retrieve Accounts</button>
+    <button onclick="deleteAccounts()">Delete Selected Accounts</button>
+    <br/>
+    <button onclick="updateAccounts()">Update Selected Accounts</button> 
+    Site:<input type="text" id="newSiteValue"/>
+    <br/>
+    <button onclick="createAccount()">Create Account</button>
+    Name:<input type="text" Id="acctName" size="28" value="Benioff Inc"/>
+    Website:<input type="text" Id="acctWebsite" size="28" value="http://www.brooksrunning.com/"/>
+    
+    
+    <div id="accountList"/>
+
+    <!-- JavaScript to make Remote Objects calls -->
+    <script>
+        var fetchAccounts = function(){
+            var myDiv = document.getElementById("accountList");
+            // Create a new Remote Object
+            var acct = new SObjectModel.Account();
+            
+            // Use the Remote Object to query for account records
+            acct.retrieve({ limit: 100 }, function(err, records, event){
+                var htmlString='';
+                if(err) {
+                    alert(err.message);
+                }
+                else {
+                    records.forEach(function(record) {
+                        myDiv.innerHTML='';                     
+                        htmlString += '<input type="checkbox" value="'+  record.get("Id") +'"/>';                      
+                        htmlString += record.get("Name");
+                        htmlString += " -- ";
+                        htmlString += record.get("Website"); 
+                        htmlString += " -- ";                        
+                        htmlString += record.get("Id"); 
+                        htmlString += " -- ";                        
+                        htmlString += record.get("Site") ? record.get("Site"): "";
+                        htmlString += " -- ";                        
+                        htmlString += record.get("CreatedDate").toLocaleDateString();  
+                        htmlString += '<br/>';  
+                        
+                        
+                    });
+                }
+                myDiv.innerHTML=htmlString; 
+            });
+        };
+                
+    function createAccount(){
+        var acctDetails = { Name: document.getElementById('acctName').value , Website: document.getElementById('acctWebsite').value };
+
+        // Call create() on an empty account model, passing in field values
+        var acct = new SObjectModel.Account();
+        acct.create(acctDetails, function(err) {
+            if(err) { 
+                console.log(err);
+                alert(err.message);
+            }
+            else {
+                console.log(acct.log());
+                console.log(acct.get('Id')); 
+            }
+        });
+        fetchAccounts(); 
+     }
+</script>
+
+
+
+<script>
+     function deleteAccounts(){
+        vals = getSelectedAccounts();
+        if(vals.length>0){
+            var acct = new SObjectModel.Account(vals);
+            acct.del(vals, function(err) {
+            if (err)
+                console.log(err);
+            else
+                console.log('deleted');
+                fetchAccounts();
+                
+            });
+        }
+        else{
+            console.log('nothing to delete');
+        }            
+        
+     }
+
+     function updateAccounts(){
+       //bulk updates are uniform
+       var newSiteValue = document.getElementById('newSiteValue').value;
+       var acctsToUpdate = [];
+
+       if(newSiteValue.length > 0) 
+          acctsToUpdate = getSelectedAccounts();
+
+       if (acctsToUpdate.length > 0){ 
+           var acct = new SObjectModel.Account();
+            acct.update(
+                acctsToUpdate, 
+                { Site: newSiteValue},
+                function(err, ids) {
+                    if (err) { 
+                        console.log(err); 
+                    } else {
+                        // Reload the contacts with current list
+                        fetchAccounts();
+                        console.log(ids.length + ' record(s) updated.');
+                    }
+            });
+        }
+        else console.log('nothing to update');
+     }
+
+     function getSelectedAccounts(){
+    
+          var inputFields = document.getElementsByTagName('input');
+          var checkedIds = [];      
+          for(var i=0; i < inputFields.length; i++){
+              if(inputFields[i].checked === true){
+                  checkedIds.push(inputFields[i].value);
+              }
+          }
+          return checkedIds;
+      }
+    
+    </script>
+    
+
 </apex:page>
