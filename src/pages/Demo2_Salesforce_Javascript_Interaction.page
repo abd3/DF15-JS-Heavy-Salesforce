@@ -3,14 +3,7 @@
   <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
   <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css"></link>
    
-    <!-- Remote Objects definition to set accessible sObjects and fields -->
-    <apex:remoteObjects >
-        <apex:remoteObjectModel name="Account" jsShorthand="acct" 
-            fields="Name,Id,website,Site,CreatedDate">
-        </apex:remoteObjectModel>
-    </apex:remoteObjects>
-
-    <button onclick="fetchAccounts()">Retrieve Accounts</button>
+    <button onclick="retrieveAccounts()">Retrieve Accounts</button>
     <br/>
     <button onclick="updateAccounts()">Update Selected Accounts</button> 
     Site:<input type="text" id="newSiteValue"/>
@@ -22,18 +15,27 @@
     <div id="accountList"/>
     <button onclick="deleteAccounts()">Delete Selected Accounts</button>
 
+
+    <!-- Remote Objects definition to set accessible sObjects and fields -->
+    <apex:remoteObjects >
+        <apex:remoteObjectModel name="Account" jsShorthand="acct_jsShorthand" 
+            fields="Name,Id,website,Site,CreatedDate">
+        </apex:remoteObjectModel>
+    </apex:remoteObjects>
+
+
     <!-- JavaScript to make Remote Objects calls -->
     <script>
-        var fetchAccounts = function(){
-            var myDiv = document.getElementById("accountList");
+        var retrieveAccounts = function(){
+            var acctDiv = document.getElementById("accountList");
 
             // Create a new Remote Object
-            var acct = new SObjectModel.Account();
+            var acct = new SObjectModel.acct_jsShorthand();
             
             // Use the Remote Object to query for account records
             acct.retrieve({ limit: 100 }, function(err, records, event){
                 var htmlString=getDataTablePre(); 
-                myDiv.innerHTML='';                  
+                acctDiv.innerHTML='';                  
                 
                 if(err) {
                     alert(err.message);
@@ -51,8 +53,8 @@
                     });
                 }
                 htmlString+='</tbody></table>';
-                myDiv.innerHTML=htmlString; 
-                $('#remoteObjectsTable').DataTable();
+                acctDiv.innerHTML=htmlString; 
+                $('#remoteObjectsTable').DataTable({"iDisplayLength": 50});
 
             });
         };                
@@ -60,7 +62,7 @@
         var acctDetails = { Name: document.getElementById('acctName').value , Website: document.getElementById('acctWebsite').value };
 
         // Call create() on an empty account model, passing in field values
-        var acct = new SObjectModel.Account();
+        var acct = new SObjectModel.acct_jsShorthand();
         acct.create(acctDetails, function(err) {
             if(err) { 
                 console.log(err);
@@ -71,7 +73,7 @@
                 console.log(acct.get('Id')); 
             }
         });
-        fetchAccounts(); 
+        retrieveAccounts(); 
      }
 </script>
 
@@ -81,13 +83,13 @@
      function deleteAccounts(){
         vals = getSelectedAccounts();
         if(vals.length>0){
-            var acct = new SObjectModel.Account(vals);
+            var acct = new SObjectModel.acct_jsShorthand(vals);
             acct.del(vals, function(err) {
             if (err)
                 console.log(err);
             else
                 console.log('deleted');
-                fetchAccounts();
+                retrieveAccounts();
             });
         }
         else{
@@ -105,7 +107,7 @@
           acctsToUpdate = getSelectedAccounts();
 
        if (acctsToUpdate.length > 0){ 
-           var acct = new SObjectModel.Account();
+           var acct = new SObjectModel.acct_jsShorthand();
             acct.update(
                 acctsToUpdate, 
                 { Site: newSiteValue},
@@ -114,7 +116,7 @@
                         console.log(err); 
                     } else {
                         // Reload the contacts with current list
-                        fetchAccounts();
+                        retrieveAccounts();
                         console.log(ids.length + ' record(s) updated.');
                     }
             });
@@ -140,7 +142,7 @@
             fields+='        <th>Created Date</th>';
             fields+='      </tr>';
         
-        var returnString ='<table id="remoteObjectsTable" class="display" cellspacing="0" width="100%" border="1">';
+        var returnString ='<table id="remoteObjectsTable" class="display" cellspacing="0" width="100%">';
             returnString+='    <thead>';
             returnString+=     fields;
             returnString+='    </thead>';
