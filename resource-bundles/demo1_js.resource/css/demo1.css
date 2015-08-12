@@ -1,0 +1,8 @@
+/*
+ Wikipedia-related CSS
+ */
+
+.wpSearchResults {
+  /* Hide this div initially */
+  display: none;
+}
