@@ -1,0 +1,39 @@
+<apex:page controller="Demo3Controller" showHeader="true" sidebar="true">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.js"></script>
+  <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.js"></script>
+  <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css"></link>
+
+  <script>
+  var globalVariable1 = "Be careful with global variables";
+  var globalVariable2 = "They can make your code difficult to unit test";
+  var globalVariable3 = "Difficult to understand (not encapsulated)";
+  var globalVariable4 = "And set you up for namespace conflicts with like-named variables";
+
+  function usingGlobalVariables() {
+    if (globalVariable1.indexOf("careful") > -1) {
+      console.log("global variable found");
+    }
+  }
+  usingGlobalVariables();
+
+  function usingControllerBindings() {
+    if ("{!controllerVariable}") {
+      console.log("{!controllerVariable}");
+    }
+  }
+  usingControllerBindings();
+
+  (function() {
+    // This notation is a nice way of creating a private memory space in JavaScript
+    // But functions that are local in this scope are not unit-testable
+
+    function privateAndNotTestable() {
+      console.log('This technique is very good use of Javascript');
+      console.log("But since this function is private you can't unit-test it");
+    }
+
+    privateAndNotTestable();
+  })();
+  </script>
+
+</apex:page>

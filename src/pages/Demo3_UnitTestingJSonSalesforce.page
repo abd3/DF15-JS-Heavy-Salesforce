@@ -1,3 +1,23 @@
 <apex:page showHeader="true" sidebar="true">
-	
+	<h1>How to setup a testing stack</h1>
+  <p>These are basic instructions you can use to get started. Customize <code>karma.conf.js</code> to meet your specific needs.</p>
+  <ol>
+    <li><a href="http://www.nodejs.org">Install Node</a> on your development machine(s).</li>
+    <li>These files from this sample project can be copied into your project directory and then configured as needed:
+      <ul>
+        <li>/karma.conf.js</li>
+        <li>/package.json</li>
+        <li>/test/*</li>
+      </ul>
+    </li>
+    <li>In the root of your development directory (where <code>package.json</code> is installed) run the following one-time installation command from the command line:<br/>
+      <pre><code>npm install</code></pre>
+    </li>
+    <li>Run the following code from the command-line every time you want to start the karma test runner:<br/>
+      <pre><code>./node_modules/karma/bin/karma start karma.conf.js</code></pre>
+    </li>
+    <li><code>autowatch = true</code> in our sample configuration file, so Karma will re-run all the unit tests each time you save a change to one of the files being tested. To change the files that are being tested or included, edit <code>karma.conf.js</code></li>
+  </ol>
+  <p>Here's <a href="/apex/Demo3NotTestable">a sample VF page that is <strong>not</strong> testable</a>, and here's <a href="/apex/Demo3Testable">one that <strong>is testable</strong></a>.
+  </p>
 </apex:page>
