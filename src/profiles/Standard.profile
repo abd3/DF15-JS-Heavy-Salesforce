@@ -14,6 +14,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Demo3Controller</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ForgotPasswordController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -27,6 +31,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>MyProfilePageControllerTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RemoteRestSvcController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -68,6 +76,14 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>Demo2_Salesforce_Javascript_Interaction</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>Demo3NotTestable</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>Demo3Testable</apexPage>
         <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>

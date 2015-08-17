@@ -1,3 +1,5 @@
+var demo1Controller = demo1Controller || {};
+demo1Controller.asynchronousMethod = demo1Controller.asynchronousMethod || function() {};
 var globalVariables = "Should be avoided!";
 // But do create a namespace variable and define the data
 // If myApp already exists, use that. Otherwise, create myApp as an empty global "namespace" object

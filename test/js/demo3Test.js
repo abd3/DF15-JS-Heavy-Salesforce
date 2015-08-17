@@ -1,18 +1,28 @@
 var assert = chai.assert;
 var expect = chai.expect;
 
-describe("Controller-binding Test Suite", function() {
-  var
-});
+// This object is set in the VisualForce based on the controller and so has to be mocked here:
+var controller = {
+  variable: 'Some variable from the controller',
+  list: ['Some', 'List', 'Values'],
+  integerMap: {1: 'One'},
+  complexObject: {}
+};
 
 describe("Demo3 Test Suite: ", function() {
-  describe("Logging functions", function() {
+  describe("controller-binding demonstration", function() {
+
+  });
+
+  describe("logging functions", function() {
     it("should allow us to add logs", function() {
       var testString = "Test string";
       demo3.addToLog("First entry");
       demo3.addToLog(testString);
       demo3.addToLog("Third entry");
-      assert.include(demo3.dumpLogs, testString, "the log contains our message");
+      var logResults = demo3.dumpLogs();
+      console.log(logResults);
+      assert.include(logResults, testString, "the log contains our message");
     });
 
     it("should not allow us to add logs endlessly", function() {

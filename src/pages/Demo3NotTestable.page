@@ -1,4 +1,4 @@
-<apex:page controller="Demo3Controller" showHeader="true" sidebar="true">
+<apex:page controller="Demo3Controller" showHeader="true" sidebar="true" tabStyle="X3_Unit_testing_JS__tab">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.js"></script>
   <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.js"></script>
   <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css"></link>

@@ -8,8 +8,6 @@ module.exports = function(config) {
     //basePath: '../../..',
     basePath: '',
 
-    plugins: ['karma-jquery'],
-
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: ['mocha', 'chai', 'jquery-2.1.0', 'sinon'],
@@ -20,11 +18,9 @@ module.exports = function(config) {
     // These will be included in this order when running unit tests, so order may be important
     // See http://karma-runner.github.io/0.8/config/files.html
     files: [
-      MOCHA,
-      MOCHA_ADAPTER,
-      {pattern: 'resource-bundles/**/(!jquery)*.js', included: true},
-      {pattern: 'src/staticresources/(!jquery)*(js|JS).resource', included: true},
-      {pattern: 'test/js/demo3Test.js', included: true}
+      {pattern: 'resource-bundles/**/*.js', included: true},
+      {pattern: 'src/staticresources/*js.resource', included: true},
+      {pattern: 'test/js/*.js', included: true}
     ],
 
     // list of files to exclude
