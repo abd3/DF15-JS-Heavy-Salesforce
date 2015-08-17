@@ -34,3 +34,9 @@ var SObjectModel = {
   acct_jsShorthand: function() {}
 };
 
+SObjectModel.acct_jsShorthand.prototype = {
+  create: function() {},
+  retrieve: function() {},
+  update: function() {},
+  del: function() {}
+};
