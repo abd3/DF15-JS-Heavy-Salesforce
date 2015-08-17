@@ -1,4 +1,5 @@
 // Boilerplate code for Require.js
+/*
 var allTestFiles = [];
 var TEST_REGEXP = /(spec|test)\.js$/i;
 
@@ -23,7 +24,7 @@ require.config({
   // we have to kickoff jasmine, as it is asynchronous
   callback: window.__karma__.start
 });
-
+*/
 // Code to stub-out Salesforce functions that would otherwise be provided by VisualForce
 var Visualforce = {
   remoting: function() {}

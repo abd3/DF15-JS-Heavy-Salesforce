@@ -18,6 +18,7 @@ module.exports = function(config) {
     // These will be included in this order when running unit tests, so order may be important
     // See http://karma-runner.github.io/0.8/config/files.html
     files: [
+      {pattern: 'test/source-test-files.js', included: true},
       {pattern: 'resource-bundles/**/*.js', included: true},
       {pattern: 'src/staticresources/*js.resource', included: true},
       {pattern: 'test/js/*.js', included: true}
