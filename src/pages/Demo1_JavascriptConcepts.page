@@ -1,8 +1,8 @@
 <apex:page showHeader="true" sidebar="true" controller="demo1Controller">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.js"></script>
   <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.js"></script>
-  <script src="{!URLFOR($Resource.demo1_js, 'js/demo1.js')}"></script>
-  <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.demo1_js, 'css/demo1.css')}"></link>
+  <script src="{!URLFOR($Resource.demo1, 'js/demo1.js')}"></script>
+  <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.demo1, 'css/demo1.css')}"></link>
   <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css"></link>
 
   <input type="text" name="searchWikipedia" id="wpSearchTerm" length="45" value="Test"/>
