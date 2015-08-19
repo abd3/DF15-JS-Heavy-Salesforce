@@ -71,7 +71,7 @@ function deleteAccounts(){
 }
 
 function updateAccountsWithRemoteObjects(){
-  //bulk updates are uniform from Remote Objects. can only have one value for all records that are being updated. 
+  //bulk updates are uniform from Remote Objects. can only have one value for all records that are being updated.
   console.log('Updating account(s) by Remote Objects');
   var newSiteValue = document.getElementById('newSiteValue').value;
   var acctsToUpdate = [];
@@ -95,6 +95,34 @@ function updateAccountsWithRemoteObjects(){
     });
   }
   else console.log('nothing to update');
+}
+
+function updateAccountsWithJavaScriptRemoting(){
+  var acctArray = new Array();
+
+  var records = getSelectedAccounts();
+  console.log(records);
+
+  records.forEach(function(record) {
+    var acct = new Object();
+    acct.Id = record;
+    acct.Site = document.getElementById('Site_'+record).value;
+    acctArray.push(acct);
+  });
+
+  var acctJSONstr = JSON.stringify(acctArray)
+
+  var afterUpdatingAccounts = function(result, event){
+    console.log(event);
+    if (event.status) {
+      console.log(result.toString());
+    } else if (event.type === 'exception') {
+      console.log(event.message + "-" + event.where);
+    } else {
+      console.log(event.message);
+    }
+  };
+  demo2_remoter.updateAccounts(acctJSONstr, afterUpdatingAccounts);
 }
 
 
