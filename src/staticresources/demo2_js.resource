@@ -16,11 +16,11 @@ var retrieveAccounts = function(){
     }
     else {
       records.forEach(function(record) {
-        htmlString += '<tr><td><input type="checkbox" value="'+  record.get("Id") +'"/></td>';
+        htmlString += '<tr><td><input type="checkbox" class="chkbox" value="'+  record.get("Id") +'"/></td>';
         htmlString +='<td>'+record.get("Name")+'</td>';
         htmlString +='<td>'+record.get("Website")+'</td>';
-        htmlString +='<td>'+record.get("Id")+'</td>';
-        htmlString +='<td>'+record.get("Site")+'</td>';
+//        htmlString +='<td>'+record.get("Id")+'</td>';
+        htmlString +='<td><input type="text" value="'+record.get("Site")+'" id="Site_'+record.get("Id")+'"/></td>';
         htmlString +='<td>'+record.get("CreatedDate")+'</td>';
         htmlString +='</tr>';
 
@@ -70,9 +70,9 @@ function deleteAccounts(){
   }
 }
 
-function updateAccounts(){
-  console.log('Updating account');
-  //bulk updates are uniform
+function updateAccountsWithRemoteObjects(){
+  //bulk updates are uniform from Remote Objects. can only have one value for all records that are being updated. 
+  console.log('Updating account(s) by Remote Objects');
   var newSiteValue = document.getElementById('newSiteValue').value;
   var acctsToUpdate = [];
 
@@ -97,9 +97,12 @@ function updateAccounts(){
   else console.log('nothing to update');
 }
 
+
 function getSelectedAccounts(){
   var checkedIds = $('input:checkbox:checked').map(function() {
-    return this.value;
+    if (this.value !== 'on'){ //don't return the select all checkbox
+      return this.value;
+    }
   }).get();
   return checkedIds;
 }
@@ -109,7 +112,7 @@ function getDataTablePre(){
     fields+='        <th>&nbsp;</th>';
     fields+='        <th>Name</th>';
     fields+='        <th>Website</th>';
-    fields+='        <th>Id</th>';
+//    fields+='        <th>Id</th>';
     fields+='        <th>Site</th>';
     fields+='        <th>Created Date</th>';
     fields+='      </tr>';
@@ -124,3 +127,19 @@ function getDataTablePre(){
     returnString+='    <tbody>';
   return returnString;
 }
+
+$(document).ready(function(){
+    $('#selectAll').on('click',function(){
+        if ($(this).is(':checked')) {
+            $('.chkbox').each(function(){
+                console.log(this);
+                this.checked = true;
+            });
+        }else{
+            $('.chkbox').each(function(){
+                this.checked = false;
+            });
+        }
+    })
+})
+

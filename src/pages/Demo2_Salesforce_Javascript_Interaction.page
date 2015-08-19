@@ -1,19 +1,24 @@
-<apex:page >
+<apex:page controller="demo2_remoter"><!--controller not required for remote objects, required for js remoting-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css"></link>
 
     <button onclick="retrieveAccounts()">Retrieve Accounts</button>
     <br/>
-    <button onclick="updateAccounts()">Update Selected Accounts</button>
+    <button onclick="updateAccountsWithJavaScriptRemoting()">Update Selected using JS Remoting</button>
+    <br/>
+    <button onclick="updateAccountsWithRemoteObjects()">Update Selected using Remote Objects</button>
     Site:<input type="text" id="newSiteValue"/>
     <br/>
     <button onclick="createAccount()">Create Account</button>
     Name:<input type="text" Id="acctName" size="28" value="Benioff Inc"/>
     Website:<input type="text" Id="acctWebsite" size="28" value="http://www.brooksrunning.com/"/>
-
+<br/><br/>
+    <input type="checkbox" id="selectAll">Select All</input>    
+<br/>    
     <div id="accountList"/>
     <button onclick="deleteAccounts()">Delete Selected Accounts</button>
+
 
 
     <!-- Remote Objects definition to set accessible sObjects and fields -->
@@ -25,5 +30,41 @@
     <!-- JavaScript to make Remote Objects calls (load AFTER the above block) -->
     <script src="{!URLFOR($Resource.demo2_js)}"></script>
 
+    <script>
+        function updateAccountsWithJavaScriptRemoting(){
+          var acctArray = new Array();
 
+          var records = getSelectedAccounts();
+          console.log(records);
+
+          records.forEach(function(record) {
+            var acct = new Object();
+            acct.Id = record;
+            acct.Site = document.getElementById('Site_'+record).value;
+            acctArray.push(acct);
+          });  
+
+
+          var jsonString = JSON.stringify(acctArray)
+
+          Visualforce.remoting.Manager.invokeAction(
+               '{!$RemoteAction.demo2_remoter.updateAccounts}',
+                 jsonString,
+               function(result, event){
+                   console.log(event);
+                   if (event.status) {
+                       console.log(result.toString());
+                   } else if (event.type === 'exception') {
+                       console.log(event.message + "-" + event.where);
+                   } else {
+                       console.log(event.message);
+                   }
+               }, 
+               {escape: true}
+          );
+        }
+
+    </script>    
+
+{!$RemoteAction.demo2_remoter.updateAccounts}
 </apex:page>
