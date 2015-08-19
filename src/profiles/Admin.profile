@@ -57,6 +57,10 @@
         <apexClass>demo1Controller</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>demo2_remoter</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <custom>false</custom>
     <pageAccesses>
         <apexPage>AnswersHome</apexPage>
@@ -155,11 +159,11 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
-        <tab>X1_Javascript_Concepts</tab>
+        <tab>X1_JavaScript_Concepts</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
-        <tab>X2_SF_JS_Interation</tab>
+        <tab>X2_SF_JS_Integration</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
@@ -167,7 +171,7 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
-        <tab>X4_Debugging_Javascript</tab>
+        <tab>X4_Debugging_JavaScript</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <userLicense>Salesforce</userLicense>
