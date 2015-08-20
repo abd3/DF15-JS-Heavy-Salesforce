@@ -36,6 +36,75 @@ var retrieveAccounts = function(){
   });
 };
 
+
+
+
+
+
+function updateAccountsWithRemoteObjects(){
+  //bulk updates are uniform from Remote Objects. can only have one value for all records that are being updated.
+  console.log('Updating account(s) by Remote Objects');
+  var newSiteValue = document.getElementById('newSiteValue').value;
+  var acctsToUpdate = [];
+
+  if(newSiteValue.length > 0)
+    acctsToUpdate = getSelectedAccounts();
+
+  if (acctsToUpdate.length > 0){
+    var acct = new SObjectModel.acct_jsShorthand();
+    acct.update(
+      acctsToUpdate,
+      { Site: newSiteValue},
+      function(err, ids) {
+        if (err) {
+          console.log(err);
+        } else {
+          // Reload the contacts with current list
+          retrieveAccounts();
+          console.log(ids.length + ' record(s) updated.');
+        }
+    });
+  }
+  else console.log('nothing to update');
+}
+
+
+
+
+function updateAccountsWithJavaScriptRemoting(){
+  var acctArray = new Array();
+
+  var records = getSelectedAccounts();
+  console.log(records);
+
+  records.forEach(function(record) {
+    var acct = new Object();
+    acct.Id = record;
+    acct.Site = document.getElementById('Site_'+record).value;
+    acctArray.push(acct);
+  });
+
+  var acctJSONstr = JSON.stringify(acctArray)
+
+  var afterUpdatingAccounts = function(result, event){
+    console.log(event);
+    if (event.status) {
+      console.log(result.toString());
+    } else if (event.type === 'exception') {
+      console.log(event.message + "-" + event.where);
+    } else {
+      console.log(event.message);
+    }
+  };
+  demo2_remoter.updateAccounts(acctJSONstr, afterUpdatingAccounts);
+}
+
+
+
+
+
+
+
 function createAccount(){
   console.log('Creating account');
   var acctDetails = { Name: document.getElementById('acctName').value , Website: document.getElementById('acctWebsite').value };
@@ -71,61 +140,6 @@ function deleteAccounts(){
   else{
     console.log('nothing to delete');
   }
-}
-
-function updateAccountsWithRemoteObjects(){
-  //bulk updates are uniform from Remote Objects. can only have one value for all records that are being updated.
-  console.log('Updating account(s) by Remote Objects');
-  var newSiteValue = document.getElementById('newSiteValue').value;
-  var acctsToUpdate = [];
-
-  if(newSiteValue.length > 0)
-    acctsToUpdate = getSelectedAccounts();
-
-  if (acctsToUpdate.length > 0){
-    var acct = new SObjectModel.acct_jsShorthand();
-    acct.update(
-      acctsToUpdate,
-      { Site: newSiteValue},
-      function(err, ids) {
-        if (err) {
-          console.log(err);
-        } else {
-          // Reload the contacts with current list
-          retrieveAccounts();
-          console.log(ids.length + ' record(s) updated.');
-        }
-    });
-  }
-  else console.log('nothing to update');
-}
-
-function updateAccountsWithJavaScriptRemoting(){
-  var acctArray = new Array();
-
-  var records = getSelectedAccounts();
-  console.log(records);
-
-  records.forEach(function(record) {
-    var acct = new Object();
-    acct.Id = record;
-    acct.Site = document.getElementById('Site_'+record).value;
-    acctArray.push(acct);
-  });
-
-  var acctJSONstr = JSON.stringify(acctArray)
-
-  var afterUpdatingAccounts = function(result, event){
-    console.log(event);
-    if (event.status) {
-      console.log(result.toString());
-    } else if (event.type === 'exception') {
-      console.log(event.message + "-" + event.where);
-    } else {
-      console.log(event.message);
-    }
-  };
-  demo2_remoter.updateAccounts(acctJSONstr, afterUpdatingAccounts);
 }
 
 

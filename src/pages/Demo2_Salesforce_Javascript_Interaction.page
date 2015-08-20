@@ -48,13 +48,9 @@ function removeRow(){
 </script>
 
 <ul>
-<li>move code samples to slides</li>
-<li>remove retrieve from updates and delete, show error</li>
 <li>on create use site instead of website</li>
-<li>on delete remove row</li>
 <li>remove website add lastmodifieddatetime</li>
 <li>add more console.log</li>
-<li>remove hotels?</li>
 </ul>
 
 
