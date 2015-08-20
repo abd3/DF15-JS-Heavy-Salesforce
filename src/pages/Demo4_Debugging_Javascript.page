@@ -1,13 +1,19 @@
-<apex:page showHeader="true" sidebar="true">
+<apex:page controller="Demo3Controller" showHeader="true" sidebar="true" tabStyle="X4_Debugging_JavaScript__tab">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.js"></script>
   <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.js"></script>
-  <script src="{!URLFOR($Resource.demo3_js)}"></script>
+  <script>
+    // Load this BEFORE any other scripts that depend on it
+    var controller = {
+      variable: "{!controllerVariable}",
+      list: JSON.parse('{!controllerListAsJSON}'),
+      integerMap: JSON.parse('{!controllerMapAsJSON}'),
+      complexObject: JSON.parse('{!complexInstanceAsJSON}')
+    };
+  </script>
+  <script src="{!URLFOR($Resource.demo4_js)}"></script>
+  <script>
+    demo4.addToLog('A new log entry');
+  </script>
   <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css"></link>
 
-	<script>
-
-  </script>
-
-  <h1>Buggy Code</h1>
-  <p>Is just not that hard to write</p>
 </apex:page>

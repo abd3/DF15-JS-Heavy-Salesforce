@@ -26,6 +26,7 @@ module.exports = function(config) {
 
     // list of files to exclude
     exclude: [
+      'resource-bundles/demo1.resource/js/demo1.js',
       'src/staticresources/*.xml',
       'src/staticresources/*CSS.resource'
     ],
