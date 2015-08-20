@@ -1,0 +1,38 @@
+<apex:page standardController="Account">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+{!account.Name}
+
+<ul>
+<li>show Acct Info, Name, Site, Modified</li>
+<li>jquery jsonp call to public apex rest service, url not visible in code</li>
+<li>have service respond with some relevant data</li>
+<li>show response more clearly</li>
+<li>edit/update site with remoteAction?</li>
+</ul>
+
+<input value="$ajax jsonp" type="button" onclick="jsonp();"/>
+
+<script>
+function jsonp(){ 
+  console.log('don\'t show url');
+  apiUrl='https://df15-javascript-developer-edition.na31.force.com/services/apexrest/RemoteRestSvc?callback=mycallback&wait=0&serverError=false';
+
+  $.ajax({
+        type: 'GET',
+        url:apiUrl,
+        dataType: 'jsonp',        
+        cache: 'false',
+        failure:function(err){
+               console.log('err yo '+ err);
+           }     
+        });
+}  
+
+// -----------------   ----------------- //  
+function mycallback(data){
+  console.log(data);
+};
+</script>
+
+
+</apex:page>

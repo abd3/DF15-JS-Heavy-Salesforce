@@ -15,13 +15,16 @@ var retrieveAccounts = function(){
       alert(err.message);
     }
     else {
+      var tabIndex=1;
+
+
       records.forEach(function(record) {
-        htmlString += '<tr><td><input type="checkbox" class="chkbox" value="'+  record.get("Id") +'"/></td>';
-        htmlString +='<td>'+record.get("Name")+'</td>';
-        htmlString +='<td>'+record.get("Website")+'</td>';
+        htmlString += '<tr id="tr_'+record.get("Id")+'""><td><input type="checkbox" class="chkbox" value="'+  record.get("Id") +'"/></td>';
+        htmlString +='<td><a href="/apex/Demo2_detail?id='+record.get("Id")+'" target="_blank">'+record.get("Name")+'</a></td>';
 //        htmlString +='<td>'+record.get("Id")+'</td>';
-        htmlString +='<td><input type="text" value="'+record.get("Site")+'" id="Site_'+record.get("Id")+'"/></td>';
-        htmlString +='<td>'+record.get("CreatedDate")+'</td>';
+        htmlString +='<td><input type="text" tabindex='+ tabIndex++ +' value="'+record.get("Site")+'" id="Site_'+record.get("Id")+'"/></td>';
+        htmlString +='<td>'+record.get("Website")+'</td>';        
+//        htmlString +='<td>'+record.get("CreatedDate")+'</td>';
         htmlString +='</tr>';
 
       });
@@ -139,10 +142,10 @@ function getDataTablePre(){
   var fields ='      <tr>';
     fields+='        <th>&nbsp;</th>';
     fields+='        <th>Name</th>';
+    fields+='        <th>Site</th>';    
     fields+='        <th>Website</th>';
 //    fields+='        <th>Id</th>';
-    fields+='        <th>Site</th>';
-    fields+='        <th>Created Date</th>';
+//    fields+='        <th>Created Date</th>';
     fields+='      </tr>';
 
   var returnString ='<table id="remoteObjectsTable" class="display" cellspacing="0" width="100%">';
@@ -156,11 +159,12 @@ function getDataTablePre(){
   return returnString;
 }
 
+//check or uncheck all
 $(document).ready(function(){
     $('#selectAll').on('click',function(){
         if ($(this).is(':checked')) {
             $('.chkbox').each(function(){
-                console.log(this);
+                //console.log(this);
                 this.checked = true;
             });
         }else{
@@ -170,4 +174,6 @@ $(document).ready(function(){
         }
     })
 })
+
+
 
