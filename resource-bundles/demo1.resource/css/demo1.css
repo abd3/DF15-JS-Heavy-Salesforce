@@ -9,6 +9,7 @@
 
 div#jsDemo {
   margin-top: 20px;
+  position: relative;
 }
 
 div#jsDemoCode {
@@ -20,15 +21,16 @@ div#jsDemoCode {
   padding: 25px 10px;
   white-space: pre;
   overflow: hidden;
-  width: 73%;
-  max-width: 900px;
+  width: 75%;
+  position:absolute;
 }
 
 div#jsDemoSelector {
   display: inline-block;
   float: right;
-  margin-right: 3%;
+  margin-right: 1%;
   width: 21%;
+  z-index: 10;
 }
 select#snippet {
   width: 100%;

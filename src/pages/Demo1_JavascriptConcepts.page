@@ -29,4 +29,14 @@
     </div>
   </div>
 
+  <apex:remoteObjects >
+    <apex:remoteObjectModel name="Account" jsShorthand="acct_jsShorthand"
+      fields="Name,Id,website,Site,CreatedDate">
+    </apex:remoteObjectModel>
+  </apex:remoteObjects>
+
+  <script src="{!URLFOR($Resource.demo2_js)}"></script>
+
+
+
 </apex:page>

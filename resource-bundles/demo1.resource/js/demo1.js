@@ -150,20 +150,47 @@ myApp.jsDemo = {
 };
 
 /* jshint ignore:start */
+// myApp.jsDemo.snippet = [
+// `x = 2 + 2;`,
+// `function upperCase(text) {
+//   console.log(text.toUpperCase());
+// }`,
+// `upperCase('Some String');`,
+// `myObject = {
+//   property1: 'Just a string',
+//   method1: function() {
+//     console.log('Just a method');
+//   },
+//   method2: upperCase
+// };`,
+// `myObject.method2('another string');`,
+// `MyClass = function() {
+//   this.property1 = "Initialized in the constructor";
+// };`,
+// `MyClass.prototype = {
+//   prototypeProperties: "Are shared by all instances of the class",
+//   prototypeMethods: function() {
+//     console.log("Prototype methods are functions that are shared by all members of a class");
+//   }
+// };`,
+// `var myInstance = new MyClass();`,
+// `var myInstance2 = new MyClass();`,
+// `myInstance.property1`,
+// `myInstance.property1 = "something new"`,
+// `myInstance.prototypeProperties`,
+// `MyClass.prototype.prototypeProperties = "changed everywhere"`,
+// `myInstance2.property1`,
+// `myInstance2.prototypeProperties`,
+
+// ];
+
 myApp.jsDemo.snippet = [
-`x = 2 + 2;`,
-`function upperCase(text) {
-  console.log(text.toUpperCase());
-}`,
-`upperCase('Some String');`,
-`myObject = {
-  property1: 'Just a string',
-  method1: function() {
-    console.log('Just a method');
-  },
-  method2: upperCase
-};`,
-`myObject.method2('another string');`,
+`var sampleFunction = function() {};`,
+`var retrieveAccounts = retrieveAccounts || function(){};
+retrieveAccounts;`,
+`document.getElementById("snippet");`,
+`$("#snippet");`,
+`$("[id $= snippet]");`,
 `MyClass = function() {
   this.property1 = "Initialized in the constructor";
 };`,
@@ -181,10 +208,21 @@ myApp.jsDemo.snippet = [
 `MyClass.prototype.prototypeProperties = "changed everywhere"`,
 `myInstance2.property1`,
 `myInstance2.prototypeProperties`,
+`var acct = new SObjectModel.acct_jsShorthand();
+acct;`,
+`acct.retrieve({ limit: 100 }, function(err, records, event){
+  var htmlString=getDataTablePre();
+  if(err) {
+    alert(err.message);
+  }
+  else {
+  }
+});`
 
 ];
 /* jshint ignore:end */
 
 $(document).ready(function() {
+  console.clear();
   myApp.jsDemo.initializeHandlers();
 });
