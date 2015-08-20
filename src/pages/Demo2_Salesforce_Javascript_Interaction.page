@@ -3,30 +3,59 @@
   <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
   <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css"></link>
 
+<table border="0"><th>Remote Objects</th><th>Javascript Remoting</th><tr><td>
   <button onclick="retrieveAccounts()">Retrieve Accounts</button>
   <br/>
-  <button onclick="updateAccountsWithJavaScriptRemoting()">Update Selected using JS Remoting</button>
-  <br/>
-  <button onclick="updateAccountsWithRemoteObjects()">Update Selected using Remote Objects</button>
+  <button onclick="updateAccountsWithRemoteObjects()">Update Selected</button>
   Site:<input type="text" id="newSiteValue"/>
   <br/>
   <button onclick="createAccount()">Create Account</button>
   Name:<input type="text" Id="acctName" size="28" value="Benioff Inc"/>
-  Website:<input type="text" Id="acctWebsite" size="28" value="http://www.brooksrunning.com/"/>
+  Website:<input type="text" Id="acctWebsite" size="28" value="https://developer.salesforce.com/trailhead"/><br/>
+  <button onclick="deleteAccounts()">Delete Selected Accounts</button>
 <br/><br/>
+  </td><td><button onclick="updateAccountsWithJavaScriptRemoting()">Update Selected</button></td></tr></table>
   <input type="checkbox" id="selectAll">Select All</input>
 <br/>
   <div id="accountList"/>
-  <button onclick="deleteAccounts()">Delete Selected Accounts</button>
 
 
 
-  <!-- Remote Objects definition to set accessible sObjects and fields -->
+  <!-- ######################## Remote Objects definition to set accessible sObjects and fields ######################## -->
   <apex:remoteObjects >
     <apex:remoteObjectModel name="Account" jsShorthand="acct_jsShorthand"
       fields="Name,Id,website,Site,CreatedDate">
     </apex:remoteObjectModel>
   </apex:remoteObjects>
+
   <!-- JavaScript to make Remote Objects calls (load AFTER the above block) -->
   <script src="{!URLFOR($Resource.demo2_js)}"></script>
+
+  <!--
+  <script>retrieveAccounts()</script>
+  -->
+
+
+
+
+<input type="button" onclick="removeRow()" value="Experiment/remove Edge Communications"/>
+<script>
+//move to static resource
+function removeRow(){
+    $("#tr_00137000003pd85AAA").remove()
+//    $('#remoteObjectsTable').DataTable({"iDisplayLength": 50});
+}
+</script>
+
+<ul>
+<li>move code samples to slides</li>
+<li>remove retrieve from updates and delete, show error</li>
+<li>on create use site instead of website</li>
+<li>on delete remove row</li>
+<li>remove website add lastmodifieddatetime</li>
+<li>add more console.log</li>
+<li>remove hotels?</li>
+</ul>
+
+
 </apex:page>
