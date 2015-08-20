@@ -5,7 +5,7 @@
   <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.demo1, 'css/demo1.css')}"></link>
   <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css"></link>
 
-  <input type="text" name="searchWikipedia" id="wpSearchTerm" length="45" value="Test"/>
+  <!-- <input type="text" name="searchWikipedia" id="wpSearchTerm" length="45" value="Test"/>
   <label for="wpSearchTerm">Enter your search term:</label>
   <button id="wpSearchButton">Search Wikipedia</button>
   <div id="wpSearchResults" class="wpSearchResults">
@@ -19,6 +19,14 @@
       <tbody>
       </tbody>
     </table>
+  </div> -->
+
+  <div id="jsDemo">
+    <div id="jsDemoCode"></div>
+    <div id="jsDemoSelector">
+      <select id="snippet">
+      </select>
+    </div>
   </div>
 
 </apex:page>

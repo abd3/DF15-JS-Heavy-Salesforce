@@ -85,28 +85,28 @@ demo1Controller.asynchronousMethod(function() {
       var displaySearchResults = function(data, textStatus, jqXHR) {
         var searchResults = data.query.search;
         console.log('Search results from Wikipedia: %O', searchResults);
-        // if ( $.fn.dataTable.isDataTable( '#example' ) ) {
-        //   table = $('#example').DataTable();
-        // }
-        // else {
-        //   table = $('#example').DataTable( {
-        //     paging: false
-        //   } );
-        // }
-        debugger;
-        if (myApp.page.results.ajax.url()) {
-          myApp.page.results.ajax.reload();
-        } else {
-          myApp.page.results.ajax.url(searchResults).load();
+        if ( $.fn.dataTable.isDataTable( '#example' ) ) {
+          table = $('#example').DataTable();
+        }
+        else {
+          table = $('#example').DataTable( {
+            paging: false
+          } );
         }
 
-        // myApp.wikipedia.results( {
-        //   data: searchResults,
-        //   columns: [
-        //     { data: 'title' },
-        //     { data: 'snippet' }
-        //   ]
-        // } );
+        // if (myApp.page.results.ajax.url()) {
+        //   myApp.page.results.ajax.reload();
+        // } else {
+        //   myApp.page.results.ajax.url(searchResults).load();
+        // }
+
+        myApp.wikipedia.results( {
+          data: searchResults,
+          columns: [
+            { data: 'title' },
+            { data: 'snippet' }
+          ]
+        } );
         myApp.page.searchResults.show();
       };
 
@@ -124,3 +124,67 @@ demo1Controller.asynchronousMethod(function() {
     }
   };
 }());
+
+myApp.jsDemo = {
+  selected: 0,
+
+  showSnippet: function() {
+    var snippetText = myApp.jsDemo.snippet[this.value];
+    $("#jsDemoCode").text(snippetText);
+    console.clear();
+    console.log("%c" + snippetText, "color: blue;");
+    // Using eval indirectly, with an alias, forces code to run in global scope
+    var globalEval = eval;
+    console.log(globalEval(snippetText));
+  },
+
+  initializeHandlers: function() {
+    $snippetSelector = $("#snippet");
+    $snippetSelector.prop("size", this.snippet.length);
+    this.snippet.forEach(function(snippetText, index) {
+      $snippetSelector
+        .append($("<option>", { value: index, text: snippetText }));
+    });
+    $snippetSelector.change(this.showSnippet);
+  }
+};
+
+/* jshint ignore:start */
+myApp.jsDemo.snippet = [
+`x = 2 + 2;`,
+`function upperCase(text) {
+  console.log(text.toUpperCase());
+}`,
+`upperCase('Some String');`,
+`myObject = {
+  property1: 'Just a string',
+  method1: function() {
+    console.log('Just a method');
+  },
+  method2: upperCase
+};`,
+`myObject.method2('another string');`,
+`MyClass = function() {
+  this.property1 = "Initialized in the constructor";
+};`,
+`MyClass.prototype = {
+  prototypeProperties: "Are shared by all instances of the class",
+  prototypeMethods: function() {
+    console.log("Prototype methods are functions that are shared by all members of a class");
+  }
+};`,
+`var myInstance = new MyClass();`,
+`var myInstance2 = new MyClass();`,
+`myInstance.property1`,
+`myInstance.property1 = "something new"`,
+`myInstance.prototypeProperties`,
+`MyClass.prototype.prototypeProperties = "changed everywhere"`,
+`myInstance2.property1`,
+`myInstance2.prototypeProperties`,
+
+];
+/* jshint ignore:end */
+
+$(document).ready(function() {
+  myApp.jsDemo.initializeHandlers();
+});
