@@ -186,11 +186,25 @@ myApp.jsDemo = {
 
 myApp.jsDemo.snippet = [
 `var sampleFunction = function() {};`,
+`document.getElementById("snippet");`,
+`$("#someImage").show();`,
+`$("[id $= someImage]").show();`,
+`$("[id $= someImage]").hide();`,
 `var retrieveAccounts = retrieveAccounts || function(){};
 retrieveAccounts;`,
-`document.getElementById("snippet");`,
-`$("#snippet");`,
-`$("[id $= snippet]");`,
+`var acct = new SObjectModel.acct_jsShorthand();
+acct;`,
+`if (acct && acct.retrieve) {
+  console.log(acct.retrieve);
+}`,
+`acct.retrieve({ limit: 100 }, function(err, records, event){
+  var htmlString=getDataTablePre();
+  if(err) {
+    alert(err.message);
+  }
+  else {
+  }
+});`,
 `MyClass = function() {
   this.property1 = "Initialized in the constructor";
 };`,
@@ -207,17 +221,7 @@ retrieveAccounts;`,
 `myInstance.prototypeProperties`,
 `MyClass.prototype.prototypeProperties = "changed everywhere"`,
 `myInstance2.property1`,
-`myInstance2.prototypeProperties`,
-`var acct = new SObjectModel.acct_jsShorthand();
-acct;`,
-`acct.retrieve({ limit: 100 }, function(err, records, event){
-  var htmlString=getDataTablePre();
-  if(err) {
-    alert(err.message);
-  }
-  else {
-  }
-});`
+`myInstance2.prototypeProperties`
 
 ];
 /* jshint ignore:end */
