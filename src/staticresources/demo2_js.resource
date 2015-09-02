@@ -1,77 +1,53 @@
 // JavaScript to make Remote Objects calls
 var retrieveAccounts = function(){
-  console.log('Retrieving accounts');
+  console.log('Retrieving accounts by Remote Objects');
   var acctDiv = document.getElementById("accountList");
 
   // Create a new Remote Object
   var acct = new SObjectModel.acct_jsShorthand();
 
   // Use the Remote Object to query for account records
-  acct.retrieve({ limit: 100 }, function(err, records, event){
-    var htmlString=getDataTablePre();
-    acctDiv.innerHTML='';
+  acct.retrieve({ 
+        where: {
+         Site: {ne: 'Remote'}
+        },
+        orderby: [ {Name: 'DESC'} ],
+        limit: 100
+    }, function(err, records, event){
+      var htmlString=getDataTablePre();
+      acctDiv.innerHTML='';
 
-    if(err) {
-      alert(err.message);
-    }
-    else {
-      var tabIndex=1;
+      if(err) {
+        alert(err.message);
+      }
+      else {
+        var tabIndex=1;
 
+        records.forEach(function(record) {
+          htmlString += '<tr id="tr_'+record.get("Id")+'""><td><input type="checkbox" class="chkbox" value="'+  record.get("Id") +'"/></td>';
+          htmlString +='<td><a href="/apex/Demo2_detail?id='+record.get("Id")+'" target="_blank">'+record.get("Name")+'</a></td>';
+          htmlString +='<td><input type="text" tabindex='+ tabIndex++ +' value="'+record.get("Site")+'" id="Site_'+record.get("Id")+'"/></td>';
+          htmlString +='<td> '+ getDisplayDate(record.get("LastModifiedDate"))+'</td>';
+          htmlString +='</tr>';
 
-      records.forEach(function(record) {
-        htmlString += '<tr id="tr_'+record.get("Id")+'""><td><input type="checkbox" class="chkbox" value="'+  record.get("Id") +'"/></td>';
-        htmlString +='<td><a href="/apex/Demo2_detail?id='+record.get("Id")+'" target="_blank">'+record.get("Name")+'</a></td>';
-//        htmlString +='<td>'+record.get("Id")+'</td>';
-        htmlString +='<td><input type="text" tabindex='+ tabIndex++ +' value="'+record.get("Site")+'" id="Site_'+record.get("Id")+'"/></td>';
-        htmlString +='<td>'+record.get("Website")+'</td>';        
-//        htmlString +='<td>'+record.get("CreatedDate")+'</td>';
-        htmlString +='</tr>';
+        });
+      }
+      htmlString+='</tbody></table>';
 
-      });
-    }
-    htmlString+='</tbody></table>';
-    acctDiv.innerHTML=htmlString;
-    $('#remoteObjectsTable').DataTable({"iDisplayLength": 50});
+      acctDiv.innerHTML=htmlString;
+
+      $('#remoteObjectsTable').DataTable({
+//              "iDisplayLength": 50,
+              "bPaginate": false,
+              "bFilter": false});
+      setCheck();
 
   });
 };
 
-function createAccount(){
-  console.log('Creating account');
-  var acctDetails = { Name: document.getElementById('acctName').value , Website: document.getElementById('acctWebsite').value };
 
-  // Call create() on an empty account model, passing in field values
-  var acct = new SObjectModel.acct_jsShorthand();
-  acct.create(acctDetails, function(err) {
-    if(err) {
-      console.log(err);
-      alert(err.message);
-    }
-    else {
-      console.log(acct.log());
-      console.log(acct.get('Id'));
-    }
-  });
-  retrieveAccounts();
-}
 
-function deleteAccounts(){
-  console.log('Deleting account');
-  vals = getSelectedAccounts();
-  if(vals.length>0){
-    var acct = new SObjectModel.acct_jsShorthand(vals);
-    acct.del(vals, function(err) {
-    if (err)
-      console.log(err);
-    else
-      console.log('deleted');
-      retrieveAccounts();
-    });
-  }
-  else{
-    console.log('nothing to delete');
-  }
-}
+
 
 function updateAccountsWithRemoteObjects(){
   //bulk updates are uniform from Remote Objects. can only have one value for all records that are being updated.
@@ -92,19 +68,23 @@ function updateAccountsWithRemoteObjects(){
           console.log(err);
         } else {
           // Reload the contacts with current list
-          retrieveAccounts();
-          console.log(ids.length + ' record(s) updated.');
+          console.log('Account(s) updated');
+          retrieveAccounts();          
         }
     });
   }
   else console.log('nothing to update');
 }
 
+
+
+
 function updateAccountsWithJavaScriptRemoting(){
+  console.log('Updating account(s) by JavaScript Remoting');
   var acctArray = new Array();
 
   var records = getSelectedAccounts();
-  console.log(records);
+  //console.log(records);
 
   records.forEach(function(record) {
     var acct = new Object();
@@ -119,6 +99,8 @@ function updateAccountsWithJavaScriptRemoting(){
     console.log(event);
     if (event.status) {
       console.log(result.toString());
+      console.log('Account(s) updated');
+      retrieveAccounts();      
     } else if (event.type === 'exception') {
       console.log(event.message + "-" + event.where);
     } else {
@@ -126,6 +108,49 @@ function updateAccountsWithJavaScriptRemoting(){
     }
   };
   demo2_remoter.updateAccounts(acctJSONstr, afterUpdatingAccounts);
+}
+
+
+
+
+
+
+
+function createAccount(){
+  console.log('Creating account');
+  var acctDetails = { Name: document.getElementById('acctName').value , Site: document.getElementById('acctSite').value };
+
+  // Call create() on an empty account model, passing in field values
+  var acct = new SObjectModel.acct_jsShorthand();
+  acct.create(acctDetails, function(err) {
+    if(err) {
+      console.log(err);
+      alert(err.message);
+    }
+    else {
+      console.log(acct.log());
+      console.log(acct.get('Id'));
+    }
+  });
+  retrieveAccounts();
+}
+
+function deleteAccounts(){
+  console.log('Deleting Account(s) by Remote Objects');
+  vals = getSelectedAccounts();
+  if(vals.length>0){
+    var acct = new SObjectModel.acct_jsShorthand(vals);
+    acct.del(vals, function(err) {
+    if (err)
+      console.log(err);
+    else
+      console.log('deleted');
+      retrieveAccounts();
+    });
+  }
+  else{
+    console.log('nothing to delete');
+  }
 }
 
 
@@ -138,27 +163,32 @@ function getSelectedAccounts(){
   return checkedIds;
 }
 
+function getDisplayDate(inDate){
+  inDate=inDate+'';
+  var pieces = inDate.split(' ');
+  return pieces[1] +' '+ pieces[2] +' @'+ pieces[4];
+}
+
 function getDataTablePre(){
   var fields ='      <tr>';
-    fields+='        <th>&nbsp;</th>';
+    fields+='        <th><input type="checkbox" id="selectAll"/></th>';
     fields+='        <th>Name</th>';
     fields+='        <th>Site</th>';    
-    fields+='        <th>Website</th>';
-//    fields+='        <th>Id</th>';
-//    fields+='        <th>Created Date</th>';
+    fields+='        <th>Last Modified</th>';
     fields+='      </tr>';
 
   var returnString ='<table id="remoteObjectsTable" class="display" cellspacing="0" width="100%">';
     returnString+='    <thead>';
     returnString+=     fields;
     returnString+='    </thead>';
-    returnString+='    <tfoot>';
+/*    returnString+='    <tfoot>';
     returnString+=     fields;
-    returnString+='    </tfoot>';
+    returnString+='    </tfoot>';*/
     returnString+='    <tbody>';
   return returnString;
 }
 
+function setCheck(){
 //check or uncheck all
 $(document).ready(function(){
     $('#selectAll').on('click',function(){
@@ -174,6 +204,15 @@ $(document).ready(function(){
         }
     })
 })
+}
+
+$(window).load(function() {
+  console.clear();
+});
+
+
+
+
 
 
 
