@@ -9,7 +9,7 @@ var retrieveAccounts = function(){
   // Use the Remote Object to query for account records
   acct.retrieve({
         where: {
-         Site: {ne: 'Remote'}
+          Site: {ne: 'Remote'}
         },
         orderby: [ {Name: 'DESC'} ],
         limit: 100
@@ -37,11 +37,10 @@ var retrieveAccounts = function(){
       acctDiv.innerHTML=htmlString;
 
       $('#remoteObjectsTable').DataTable({
-//              "iDisplayLength": 50,
+             // "iDisplayLength": 50,
               "bPaginate": false,
               "bFilter": false});
       setCheck();
-
   });
 };
 
@@ -181,7 +180,7 @@ function getDataTablePre(){
     returnString+='    <thead>';
     returnString+=     fields;
     returnString+='    </thead>';
-/*    returnString+='    <tfoot>';
+    /*returnString+='    <tfoot>';
     returnString+=     fields;
     returnString+='    </tfoot>';*/
     returnString+='    <tbody>';
