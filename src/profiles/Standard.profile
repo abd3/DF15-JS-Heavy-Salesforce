@@ -79,6 +79,10 @@
         <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
+        <apexPage>Demo2_Detail</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
         <apexPage>Demo2_Salesforce_Javascript_Interaction</apexPage>
         <enabled>false</enabled>
     </pageAccesses>

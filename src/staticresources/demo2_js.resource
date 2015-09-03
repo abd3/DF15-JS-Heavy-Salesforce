@@ -52,6 +52,44 @@ var retrieveAccounts = function(){
         limit: 100
     }, processRetrievedRecords);
   console.log("Execution of the retrieve command has finished.");
+
+  // Use the Remote Object to query for account records
+  acct.retrieve({
+        where: {
+          Site: {ne: 'Remote'}
+        },
+        orderby: [ {Name: 'DESC'} ],
+        limit: 100
+    }, function(err, records, event){
+      var htmlString=getDataTablePre();
+      acctDiv.innerHTML='';
+
+      if(err) {
+        alert(err.message);
+      }
+      else {
+        var tabIndex=1;
+
+        records.forEach(function(record) {
+          htmlString += '<tr id="tr_'+record.get("Id")+'""><td><input type="checkbox" class="chkbox" value="'+  record.get("Id") +'"/></td>';
+          htmlString +='<td><a href="/apex/Demo2_detail?id='+record.get("Id")+'" target="_blank">'+record.get("Name")+'</a></td>';
+          htmlString +='<td><input type="text" tabindex='+ tabIndex++ +' value="'+record.get("Site")+'" id="Site_'+record.get("Id")+'"/></td>';
+          htmlString +='<td> '+ getDisplayDate(record.get("LastModifiedDate"))+'</td>';
+          htmlString +='</tr>';
+
+        });
+      }
+      htmlString+='</tbody></table>';
+
+      acctDiv.innerHTML=htmlString;
+
+      $('#remoteObjectsTable').DataTable({
+             // "iDisplayLength": 50,
+              "bPaginate": false,
+              "bFilter": false});
+      setCheck();
+  });
+>>>>>>> db41f23af1c79ce0b35f598b3333715bd6bc8747
 };
 
 

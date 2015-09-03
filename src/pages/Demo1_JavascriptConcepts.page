@@ -1,11 +1,11 @@
 <apex:page showHeader="true" sidebar="true" controller="demo1Controller">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.js"></script>
   <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.js"></script>
-  <script src="{!URLFOR($Resource.demo1, 'js/demo1.js')}"></script>
-  <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.demo1, 'css/demo1.css')}"></link>
+  <script src="{!URLFOR($Resource.demo1_js)}"></script>
+  <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.demo1_css)}"></link>
   <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css"></link>
 
-  <input type="text" name="searchWikipedia" id="wpSearchTerm" length="45" value="Test"/>
+  <!-- <input type="text" name="searchWikipedia" id="wpSearchTerm" length="45" value="Test"/>
   <label for="wpSearchTerm">Enter your search term:</label>
   <button id="wpSearchButton">Search Wikipedia</button>
   <div id="wpSearchResults" class="wpSearchResults">
@@ -19,6 +19,23 @@
       <tbody>
       </tbody>
     </table>
+  </div> -->
+
+  <div id="jsDemo">
+    <div id="jsDemoCode"></div>
+    <div id="jsDemoSelector">
+      <select id="snippet">
+      </select>
+    </div>
   </div>
+  <apex:image id="someImage" url="http://www.b2bweb.fr/wp-content/uploads/js-logo-badge-512.png" width="5%" style="top:200px; position: absolute; display:none;"></apex:image>
+
+  <apex:remoteObjects >
+    <apex:remoteObjectModel name="Account" jsShorthand="acct_jsShorthand"
+      fields="Name,Id,website,Site,CreatedDate">
+    </apex:remoteObjectModel>
+  </apex:remoteObjects>
+
+  <script src="{!URLFOR($Resource.demo2_js)}"></script>
 
 </apex:page>

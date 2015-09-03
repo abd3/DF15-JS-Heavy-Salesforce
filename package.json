@@ -10,6 +10,7 @@
   "license": "ISC",
   "devDependencies": {
     "chai": "^2.1.0",
+    "datatables": "^1.10.8",
     "grunt": "^0.4.5",
     "grunt-karma": "^0.8.3",
     "gulp-karma": "0.0.4",
@@ -20,11 +21,12 @@
     "karma-junit-reporter": "^0.2.2",
     "karma-mocha": "^0.1.6",
     "karma-phantomjs-launcher": "^0.1.4",
+    "karma-requirejs": "~0.2.2",
+    "karma-sinon": "~1.0.4",
     "karma-spec-reporter": "0.0.13",
     "mocha": "^1.21.3",
-    "sinon": "~1.14.1",
-    "karma-sinon": "~1.0.4",
+    "phantomjs-polyfill": "0.0.1",
     "requirejs": "~2.1.17",
-    "karma-requirejs": "~0.2.2"
+    "sinon": "~1.14.1"
   }
 }

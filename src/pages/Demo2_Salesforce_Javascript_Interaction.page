@@ -32,6 +32,11 @@
 
 <br/>
   <div id="accountList"/>
+  <br/><br/>  <br/><br/>  <br/><br/>
+  <button onclick="createAccount()">Create</button>
+  Name:<input type="text" Id="acctName" size="28" value="Benioff Inc"/>
+  Site:<input type="text" Id="acctSite" size="28" value="HQ"/><br/>
+  <button onclick="deleteAccounts()">Delete Selected</button>
 
 <!-- uncomment for Create & Delete  <button onclick="createAccount()">Create</button>  Name:<input type="text" Id="acctName" size="28" value="Benioff Inc"/>  Site:<input type="text" Id="acctSite" size="28" value="HQ"/><br/><br/>  <button onclick="deleteAccounts()">Delete Selected</button> -->
 

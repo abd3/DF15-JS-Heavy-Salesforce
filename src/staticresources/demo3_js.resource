@@ -30,14 +30,14 @@ if (controller.complexObject && controller.complexObject.areYouKidding.first[2][
   var privateLog = [];
   var privateThreshold = 10;
 
-  var reachedThreshold = function() {
+  demo3.reachedThreshold = function() {
     return privateLog.length >= privateThreshold;
   };
 
   // Unit tests can only run on the publicly-exposed parts of this code
   // But if you write them carefully, they can exercise every part of the code
   demo3.addToLog = function(logMessage) {
-    if (reachedThreshold()) {
+    if (this.reachedThreshold()) {
       console.log('Sorry, all full!');
       return false;
     } else {
