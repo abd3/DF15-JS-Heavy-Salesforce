@@ -7,7 +7,7 @@ var retrieveAccounts = function(){
   var acct = new SObjectModel.acct_jsShorthand();
 
   // Use the Remote Object to query for account records
-  acct.retrieve({ 
+  acct.retrieve({
         where: {
          Site: {ne: 'Remote'}
         },
@@ -69,7 +69,7 @@ function updateAccountsWithRemoteObjects(){
         } else {
           // Reload the contacts with current list
           console.log('Account(s) updated');
-          retrieveAccounts();          
+          retrieveAccounts();
         }
     });
   }
@@ -81,26 +81,26 @@ function updateAccountsWithRemoteObjects(){
 
 function updateAccountsWithJavaScriptRemoting(){
   console.log('Updating account(s) by JavaScript Remoting');
-  var acctArray = new Array();
+  var acctArray = [];
 
   var records = getSelectedAccounts();
   //console.log(records);
 
   records.forEach(function(record) {
-    var acct = new Object();
+    var acct = {};
     acct.Id = record;
     acct.Site = document.getElementById('Site_'+record).value;
     acctArray.push(acct);
   });
 
-  var acctJSONstr = JSON.stringify(acctArray)
+  var acctJSONstr = JSON.stringify(acctArray);
 
   var afterUpdatingAccounts = function(result, event){
     console.log(event);
     if (event.status) {
       console.log(result.toString());
       console.log('Account(s) updated');
-      retrieveAccounts();      
+      retrieveAccounts();
     } else if (event.type === 'exception') {
       console.log(event.message + "-" + event.where);
     } else {
@@ -173,7 +173,7 @@ function getDataTablePre(){
   var fields ='      <tr>';
     fields+='        <th><input type="checkbox" id="selectAll"/></th>';
     fields+='        <th>Name</th>';
-    fields+='        <th>Site</th>';    
+    fields+='        <th>Site</th>';
     fields+='        <th>Last Modified</th>';
     fields+='      </tr>';
 
@@ -202,8 +202,8 @@ $(document).ready(function(){
                 this.checked = false;
             });
         }
-    })
-})
+    });
+});
 }
 
 $(window).load(function() {
