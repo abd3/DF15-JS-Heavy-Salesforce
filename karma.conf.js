@@ -26,7 +26,7 @@ module.exports = function(config) {
 
     // list of files to exclude
     exclude: [
-      'resource-bundles/demo1.resource/js/demo1.js',
+      'src/staticresources/demo1_js.resource',
       'src/staticresources/*.xml',
       'src/staticresources/*CSS.resource'
     ],
@@ -50,7 +50,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    //browsers: ['Chrome'],
+    // browsers: ['Chrome'],
     browsers: ['PhantomJS'],
 
 
