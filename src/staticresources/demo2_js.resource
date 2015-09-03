@@ -89,7 +89,6 @@ var retrieveAccounts = function(){
               "bFilter": false});
       setCheck();
   });
->>>>>>> db41f23af1c79ce0b35f598b3333715bd6bc8747
 };
 
 
