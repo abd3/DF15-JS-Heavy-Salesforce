@@ -1,13 +1,21 @@
 // JavaScript to make Remote Objects calls
 var retrieveAccounts = function(){
-  console.log('Retrieving accounts');
+  console.log('Retrieving accounts by Remote Objects');
   var acctDiv = document.getElementById("accountList");
 
   // Create a new Remote Object
   var acct = new SObjectModel.acct_jsShorthand();
 
-  // Use the Remote Object to query for account records
-  acct.retrieve({ limit: 100 }, function(err, records, event){
+  var processRetrievedRecords = function(err, records, event){
+    console.log('Executing a callback routine.');
+    if (acctDiv) {
+      console.log('Because of closures, the callback routine still has access to variables that are in lexical scope.');
+      setTimeout(function() {
+        if(acctDiv) {
+          console.log('Even callbacks called from callbacks still have access to variables that are in lexical scope.');
+        }
+      }, 3000);
+    }
     var htmlString=getDataTablePre();
     acctDiv.innerHTML='';
 
@@ -17,25 +25,34 @@ var retrieveAccounts = function(){
     else {
       var tabIndex=1;
 
-
       records.forEach(function(record) {
         htmlString += '<tr id="tr_'+record.get("Id")+'""><td><input type="checkbox" class="chkbox" value="'+  record.get("Id") +'"/></td>';
         htmlString +='<td><a href="/apex/Demo2_detail?id='+record.get("Id")+'" target="_blank">'+record.get("Name")+'</a></td>';
-//        htmlString +='<td>'+record.get("Id")+'</td>';
         htmlString +='<td><input type="text" tabindex='+ tabIndex++ +' value="'+record.get("Site")+'" id="Site_'+record.get("Id")+'"/></td>';
-        htmlString +='<td>'+record.get("Website")+'</td>';        
-//        htmlString +='<td>'+record.get("CreatedDate")+'</td>';
+        htmlString +='<td> '+ getDisplayDate(record.get("LastModifiedDate"))+'</td>';
         htmlString +='</tr>';
-
       });
     }
     htmlString+='</tbody></table>';
+
     acctDiv.innerHTML=htmlString;
-    $('#remoteObjectsTable').DataTable({"iDisplayLength": 50});
 
-  });
+    $('#remoteObjectsTable').DataTable({
+           // "iDisplayLength": 50,
+            "bPaginate": false,
+            "bFilter": false});
+    setCheck();
+  };
+  // Use the Remote Object to query for account records
+  acct.retrieve({
+        where: {
+          Site: {ne: 'Remote'}
+        },
+        orderby: [ {Name: 'DESC'} ],
+        limit: 100
+    }, processRetrievedRecords);
+  console.log("Execution of the retrieve command has finished.");
 };
-
 
 
 
@@ -60,8 +77,8 @@ function updateAccountsWithRemoteObjects(){
           console.log(err);
         } else {
           // Reload the contacts with current list
+          console.log('Account(s) updated');
           retrieveAccounts();
-          console.log(ids.length + ' record(s) updated.');
         }
     });
   }
@@ -72,24 +89,27 @@ function updateAccountsWithRemoteObjects(){
 
 
 function updateAccountsWithJavaScriptRemoting(){
-  var acctArray = new Array();
+  console.log('Updating account(s) by JavaScript Remoting');
+  var acctArray = [];
 
   var records = getSelectedAccounts();
-  console.log(records);
+  //console.log(records);
 
   records.forEach(function(record) {
-    var acct = new Object();
+    var acct = {};
     acct.Id = record;
     acct.Site = document.getElementById('Site_'+record).value;
     acctArray.push(acct);
   });
 
-  var acctJSONstr = JSON.stringify(acctArray)
+  var acctJSONstr = JSON.stringify(acctArray);
 
   var afterUpdatingAccounts = function(result, event){
     console.log(event);
     if (event.status) {
       console.log(result.toString());
+      console.log('Account(s) updated');
+      retrieveAccounts();
     } else if (event.type === 'exception') {
       console.log(event.message + "-" + event.where);
     } else {
@@ -107,7 +127,7 @@ function updateAccountsWithJavaScriptRemoting(){
 
 function createAccount(){
   console.log('Creating account');
-  var acctDetails = { Name: document.getElementById('acctName').value , Website: document.getElementById('acctWebsite').value };
+  var acctDetails = { Name: document.getElementById('acctName').value , Site: document.getElementById('acctSite').value };
 
   // Call create() on an empty account model, passing in field values
   var acct = new SObjectModel.acct_jsShorthand();
@@ -125,7 +145,7 @@ function createAccount(){
 }
 
 function deleteAccounts(){
-  console.log('Deleting account');
+  console.log('Deleting Account(s) by Remote Objects');
   vals = getSelectedAccounts();
   if(vals.length>0){
     var acct = new SObjectModel.acct_jsShorthand(vals);
@@ -152,27 +172,32 @@ function getSelectedAccounts(){
   return checkedIds;
 }
 
+function getDisplayDate(inDate){
+  inDate=inDate+'';
+  var pieces = inDate.split(' ');
+  return pieces[1] +' '+ pieces[2] +' @'+ pieces[4];
+}
+
 function getDataTablePre(){
   var fields ='      <tr>';
-    fields+='        <th>&nbsp;</th>';
+    fields+='        <th><input type="checkbox" id="selectAll"/></th>';
     fields+='        <th>Name</th>';
-    fields+='        <th>Site</th>';    
-    fields+='        <th>Website</th>';
-//    fields+='        <th>Id</th>';
-//    fields+='        <th>Created Date</th>';
+    fields+='        <th>Site</th>';
+    fields+='        <th>Last Modified</th>';
     fields+='      </tr>';
 
   var returnString ='<table id="remoteObjectsTable" class="display" cellspacing="0" width="100%">';
     returnString+='    <thead>';
     returnString+=     fields;
     returnString+='    </thead>';
-    returnString+='    <tfoot>';
+    /*returnString+='    <tfoot>';
     returnString+=     fields;
-    returnString+='    </tfoot>';
+    returnString+='    </tfoot>';*/
     returnString+='    <tbody>';
   return returnString;
 }
 
+function setCheck(){
 //check or uncheck all
 $(document).ready(function(){
     $('#selectAll').on('click',function(){
@@ -186,8 +211,17 @@ $(document).ready(function(){
                 this.checked = false;
             });
         }
-    })
-})
+    });
+});
+}
+
+$(window).load(function() {
+  console.clear();
+});
+
+
+
+
 
 
 

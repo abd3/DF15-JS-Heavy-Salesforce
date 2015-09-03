@@ -1,57 +1,58 @@
-<apex:page controller="demo2_remoter"><!--controller not required for remote objects, required for js remoting-->
+<apex:page controller="demo2_remoter" standardStylesheets="false" showHeader="false" applyHtmlTag="true" applyBodyTag="false" docType="html-5.0">
+<html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">   
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
   <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css"></link>
+<head>
+  <title>DF JS Demo</title>
+  <apex:stylesheet value="{!URLFOR($Resource.SLDS080, 'assets/styles/salesforce-lightning-design-system-vf.css')}" />
+</head>    
+ <!-- REQUIRED SLDS WRAPPER -->
+  <div class="slds">    
 
-<table border="0"><th>Remote Objects</th><th>Javascript Remoting</th><tr><td>
-  <button onclick="retrieveAccounts()">Retrieve Accounts</button>
-  <br/>
-  <button onclick="updateAccountsWithRemoteObjects()">Update Selected</button>
-  Site:<input type="text" id="newSiteValue"/>
-  <br/>
-  <button onclick="createAccount()">Create Account</button>
-  Name:<input type="text" Id="acctName" size="28" value="Benioff Inc"/>
-  Website:<input type="text" Id="acctWebsite" size="28" value="https://developer.salesforce.com/trailhead"/><br/>
-  <button onclick="deleteAccounts()">Delete Selected Accounts</button>
-<br/><br/>
-  </td><td><button onclick="updateAccountsWithJavaScriptRemoting()">Update Selected</button></td></tr></table>
-  <input type="checkbox" id="selectAll">Select All</input>
+
+
+  <br/><br/>
+  <table class="slds-table slds-table--bordered">
+     <th><p class="slds-text-heading--label">Remote Objects</p></th>
+     <th><p class="slds-text-heading--label">Javascript Remoting</p></th>
+     <tr>
+        <td>
+           <button onclick="retrieveAccounts()">Retrieve</button>
+           <br /><br />
+           <button onclick="updateAccountsWithRemoteObjects()">Update Selected</button>
+           New Site Value:
+           <input type="text" id="newSiteValue" />
+        </td>
+        <td valign="top">
+           <button onclick="updateAccountsWithJavaScriptRemoting()">Update Selected</button>
+        </td>
+     </tr>
+  </table>
+
 <br/>
   <div id="accountList"/>
+
+<!-- uncomment for Create & Delete  <button onclick="createAccount()">Create</button>  Name:<input type="text" Id="acctName" size="28" value="Benioff Inc"/>  Site:<input type="text" Id="acctSite" size="28" value="HQ"/><br/><br/>  <button onclick="deleteAccounts()">Delete Selected</button> -->
+
 
 
 
   <!-- ######################## Remote Objects definition to set accessible sObjects and fields ######################## -->
+  <!--controller not required for remote objects, required for js remoting-->
+
   <apex:remoteObjects >
     <apex:remoteObjectModel name="Account" jsShorthand="acct_jsShorthand"
-      fields="Name,Id,website,Site,CreatedDate">
+      fields="Name,Id,Site,LastModifiedDate">
     </apex:remoteObjectModel>
   </apex:remoteObjects>
 
-  <!-- JavaScript to make Remote Objects calls (load AFTER the above block) -->
+  <!-- ######################## JavaScript to make Remote Objects calls (load AFTER the above block) ################### -->
+
   <script src="{!URLFOR($Resource.demo2_js)}"></script>
 
-  <!--
-  <script>retrieveAccounts()</script>
-  -->
 
-
-
-
-<input type="button" onclick="removeRow()" value="Experiment/remove Edge Communications"/>
-<script>
-//move to static resource
-function removeRow(){
-    $("#tr_00137000003pd85AAA").remove()
-//    $('#remoteObjectsTable').DataTable({"iDisplayLength": 50});
-}
-</script>
-
-<ul>
-<li>on create use site instead of website</li>
-<li>remove website add lastmodifieddatetime</li>
-<li>add more console.log</li>
-</ul>
-
-
+  </div>
+  <!-- / REQUIRED SLDS WRAPPER -->    
+</html>
 </apex:page>

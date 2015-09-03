@@ -1,21 +1,41 @@
-<apex:page standardController="Account">
+<apex:page standardController="Account" standardStylesheets="false" showHeader="false" applyHtmlTag="true" applyBodyTag="false" docType="html-5.0">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-{!account.Name}
 
+<html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">   
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css"></link>
+<head>
+  <title>DF JS Demo</title>
+  <apex:stylesheet value="{!URLFOR($Resource.SLDS080, 'assets/styles/salesforce-lightning-design-system-vf.css')}" />
+</head>    
+ <!-- REQUIRED SLDS WRAPPER -->
+  <div class="slds">    
+  <br/><br/>
+  <table class="slds-table slds-table--bordered">
+     <th><p class="slds-text-heading--label">Account Name</p></th>
+     <th><p class="slds-text-heading--label">Site</p></th>
+     <th><p class="slds-text-heading--label">Last Modified</p></th>          
+     <tr>
+        <td>{!account.Name}</td>
+        <td>{!account.Site}</td>
+        <td><apex:outputField value="{!account.LastModifiedDate}"/></td>
+      </tr>
+  </table>
+
+<br/><br/><br/>
 <ul>
-<li>show Acct Info, Name, Site, Modified</li>
-<li>jquery jsonp call to public apex rest service, url not visible in code</li>
 <li>have service respond with some relevant data</li>
 <li>show response more clearly</li>
-<li>edit/update site with remoteAction?</li>
+<li>remove header</li>
 </ul>
 
 <input value="$ajax jsonp" type="button" onclick="jsonp();"/>
 
 <script>
 function jsonp(){ 
-  console.log('don\'t show url');
-  apiUrl='https://df15-javascript-developer-edition.na31.force.com/services/apexrest/RemoteRestSvc?callback=mycallback&wait=0&serverError=false';
+  console.log('Calling External Service');
+  apiUrl="{!$Label.External_Service_Url}";
 
   $.ajax({
         type: 'GET',
@@ -34,5 +54,7 @@ function mycallback(data){
 };
 </script>
 
-
+  </div>
+  <!-- / REQUIRED SLDS WRAPPER -->    
+</html>
 </apex:page>

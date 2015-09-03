@@ -44,5 +44,5 @@ global with sharing class RemoteRestSvcController {
 }
 
 /*
-https://df15-javascript-developer-edition.na31.force.com/services/apexrest/RemoteRestSvc?callback=mycallback&wait=0&serverError=false
+https://df15-javascript-developer-edition.na31.force.com/services/apexrest/ExternalService?callback=mycallback&wait=0&serverError=false
 */
