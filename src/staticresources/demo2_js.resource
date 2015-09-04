@@ -7,15 +7,6 @@ var retrieveAccounts = function(){
   var acct = new SObjectModel.acct_jsShorthand();
 
   var processRetrievedRecords = function(err, records, event){
-    console.log('Executing a callback routine.');
-    if (acctDiv) {
-      console.log('Because of closures, the callback routine still has access to variables that are in lexical scope.');
-      setTimeout(function() {
-        if(acctDiv) {
-          console.log('Even callbacks called from callbacks still have access to variables that are in lexical scope.');
-        }
-      }, 3000);
-    }
     var htmlString=getDataTablePre();
     acctDiv.innerHTML='';
 
@@ -43,6 +34,7 @@ var retrieveAccounts = function(){
             "bFilter": false});
     setCheck();
   };
+
   // Use the Remote Object to query for account records
   acct.retrieve({
         where: {
@@ -51,44 +43,6 @@ var retrieveAccounts = function(){
         orderby: [ {Name: 'DESC'} ],
         limit: 100
     }, processRetrievedRecords);
-  console.log("Execution of the retrieve command has finished.");
-
-  // Use the Remote Object to query for account records
-  acct.retrieve({
-        where: {
-          Site: {ne: 'Remote'}
-        },
-        orderby: [ {Name: 'DESC'} ],
-        limit: 100
-    }, function(err, records, event){
-      var htmlString=getDataTablePre();
-      acctDiv.innerHTML='';
-
-      if(err) {
-        alert(err.message);
-      }
-      else {
-        var tabIndex=1;
-
-        records.forEach(function(record) {
-          htmlString += '<tr id="tr_'+record.get("Id")+'""><td><input type="checkbox" class="chkbox" value="'+  record.get("Id") +'"/></td>';
-          htmlString +='<td><a href="/apex/Demo2_detail?id='+record.get("Id")+'" target="_blank">'+record.get("Name")+'</a></td>';
-          htmlString +='<td><input type="text" tabindex='+ tabIndex++ +' value="'+record.get("Site")+'" id="Site_'+record.get("Id")+'"/></td>';
-          htmlString +='<td> '+ getDisplayDate(record.get("LastModifiedDate"))+'</td>';
-          htmlString +='</tr>';
-
-        });
-      }
-      htmlString+='</tbody></table>';
-
-      acctDiv.innerHTML=htmlString;
-
-      $('#remoteObjectsTable').DataTable({
-             // "iDisplayLength": 50,
-              "bPaginate": false,
-              "bFilter": false});
-      setCheck();
-  });
 };
 
 
