@@ -3,6 +3,7 @@ global with sharing class RemoteRestSvcController {
 
 @HttpGet
     global static void getStuff() {
+      // ExternalService?callback=mycallback&wait=0&serverError=false&type=
       RestResponse res = RestContext.response;
 
       String serverError = RestContext.request.params.get('serverError');
@@ -15,18 +16,38 @@ global with sharing class RemoteRestSvcController {
       if (wait > 0){
           waited = sleep(wait);
       }
-      String callback = RestContext.request.params.get('callback');
-      res.addHeader('Content-Type', 'application/javascript');
 
-      String body = getData('NA');
-      res.responseBody = Blob.valueOf(callback + '('+body+')');
+      String type = RestContext.request.params.get('type');
+
+      String body = getData(type);
+
+      if(type == 'JSONP'){
+        String callback = RestContext.request.params.get('callback');
+        res.addHeader('Content-Type', 'application/javascript');
+        res.responseBody = Blob.valueOf(callback + '('+body+')');
 //      res.responseBody = Blob.valueOf(callback + '({ "foo": "from Apex Rest. waited:'+waited+'" })');
+      }
+      else if (type == 'CORS'){
+        res.responseBody = Blob.valueOf(body);
+        res.addHeader('Access-Control-Allow-Origin', 'https://c.na31.visual.force.com');
+        res.addHeader('Content-Type', 'application/json');
+      }
+      else{
+          res.responseBody = Blob.valueOf('not going to work');
+      }
     }
 /*----------*/
-    private static string getData(String Param){
-      List<Account> accounts = [SELECT id, name FROM Account LIMIT 2];
-      String accountsJSON = JSON.serializePretty(accounts);
-      return accountsJSON;
+    private static string getData(String type){
+      String recordsJSON;
+      if(type == 'JSONP'){
+        List<Case> cases = [SELECT id, subject, contact.name,priority FROM Case where priority='High' LIMIT 2];
+        recordsJSON = JSON.serializePretty(cases);
+      }
+      else{
+        recordsJSON='{"data": [[             "Tiger Nixon",             "System Architect",             "Edinburgh",             "5421",             "2011/04/25",             "$320,800"         ],         [             "Garrett Winters",             "Accountant",             "Tokyo",             "8422",             "2011/07/25",             "$170,750"         ]]}';
+      }
+
+      return recordsJSON;
     }
 
     global static string sleep(Integer sleepSeconds) {

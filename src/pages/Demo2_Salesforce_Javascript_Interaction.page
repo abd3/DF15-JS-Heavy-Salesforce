@@ -4,7 +4,7 @@
   <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
   <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css"></link>
 <head>
-  <title>DF JS Demo</title>
+  <title>Accts</title>
   <apex:stylesheet value="{!URLFOR($Resource.SLDS080, 'assets/styles/salesforce-lightning-design-system-vf.css')}" />
 </head>    
  <!-- REQUIRED SLDS WRAPPER -->

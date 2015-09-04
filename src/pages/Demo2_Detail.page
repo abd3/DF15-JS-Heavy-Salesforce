@@ -3,10 +3,10 @@
 
 <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">   
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+  <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
   <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css"></link>
 <head>
-  <title>DF JS Demo</title>
+  <title>Acct Details</title>
   <apex:stylesheet value="{!URLFOR($Resource.SLDS080, 'assets/styles/salesforce-lightning-design-system-vf.css')}" />
 </head>    
  <!-- REQUIRED SLDS WRAPPER -->
@@ -24,34 +24,105 @@
   </table>
 
 <br/><br/><br/>
-<ul>
-<li>have service respond with some relevant data</li>
-<li>show response more clearly</li>
-<li>remove header</li>
-</ul>
+ADD Callback to visibile params
 
-<input value="$ajax jsonp" type="button" onclick="jsonp();"/>
+<table border="1">
+   <tr>
+      <td><input value="JSONP" type="button" onclick="jsonp();" /></td>
+      <td><input value="CORS" type="button" onclick="cors();" /></td>
+      <td><input value="NO CORS Header" type="button" onclick="noCORSHeader();" /></td>
+   </tr>
+   <tr>
+      <td>t1<table id="cases_table" class="slds-table slds-table--bordered"/></td>
+      <td>t2<table id="tasks_table" class="slds-table slds-table--bordered"/></td>
+      <td>t3<div id="no cors error msg"/></td>      
+
+   </tr>
+</table>
 
 <script>
+var apiUrl="{!$Label.External_Service_Url}";
+
 function jsonp(){ 
-  console.log('Calling External Service');
-  apiUrl="{!$Label.External_Service_Url}";
+  console.log('Calling External JSONP Service');
+
+  var fUrl = apiUrl+"&callback=mycallback&type=JSONP";  
 
   $.ajax({
         type: 'GET',
-        url:apiUrl,
+        url:fUrl,
         dataType: 'jsonp',        
         cache: 'false',
         failure:function(err){
-               console.log('err yo '+ err);
+               console.log('error using jsonp '+ err);
            }     
         });
 }  
 
 // -----------------   ----------------- //  
 function mycallback(data){
-  console.log(data);
+  console.log('callback invoked');  
+  console.log(JSON.stringify(data, null, 2));
+  showTable(data);
 };
+
+
+function showTable(dataSet){
+
+$(document).ready(function() {
+    $('#cases_table').DataTable( {
+        aaData: dataSet,
+        aoColumns: [
+            { "mData": "Contact.Name" }, 
+            { "mData": "Subject" }
+        ],
+        "bPaginate": false,
+        "bFilter": false        
+    } );
+} );
+}
+
+function noCORSHeader(){ 
+//without CORS header being set on service side 
+// No 'Access-Control-Allow-Origin' header is present on the requested resource. Origin 'x' is therefore not allowed access.
+
+  console.log('Calling External CORS Service');
+
+/*
+    $('#tasks_table').DataTable( {
+        ajax: "{!$Label.External_Service_Url}&type=CORS"
+    } );
+*/
+
+  var fUrl = apiUrl+"&type=noCORSHeader";
+  $.ajax({
+        type: 'GET',
+        dataType: "json",
+        url:fUrl,
+        cache: 'false',
+        complete:function(data){
+          console.log(JSON.stringify(data));
+        },
+        failure:function(err){
+               console.log('error using CORS '+ err);
+           }     
+        });    
+
+}
+
+function cors(){
+    var fUrl = apiUrl+"&type=CORS";
+    $('#tasks_table').DataTable( {
+        ajax: fUrl,
+        "bFilter": false,
+        "bPaginate": false,
+        bSort: false,
+        aoColumns: [ { sWidth: "45%" }, { sWidth: "45%" }, { sWidth: "10%", bSearchable: false, bSortable: false } ]
+    } );
+
+
+}
+
 </script>
 
   </div>
