@@ -11,7 +11,7 @@ describe("Demo2 Test Suite: ", function() {
     var $acctDiv = $('<div>', {id: "accountList", style: "display: none;"});
     $('body').append($acctDiv);
 
-    before(function() {
+    beforeEach(function() {
       // These unit tests also don't have access to Visualforce-specific functionality
       // like Remote Objects. We therefore need to mock up the the Javascript
       // that is created by VisualForce. A mocking tool like Sinon is indispensable for this.
@@ -52,7 +52,7 @@ describe("Demo2 Test Suite: ", function() {
       assert(alert.calledOnce, "The error handler was not called");
     });
 
-    after(function() {
+    afterEach(function() {
       SObjectModel.acct_jsShorthand.prototype.retrieve.restore();
       alert.restore();
     });
