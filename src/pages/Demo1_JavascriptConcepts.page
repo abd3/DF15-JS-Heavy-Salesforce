@@ -28,14 +28,17 @@
       </select>
     </div>
   </div>
-  <apex:image id="someImage" url="http://www.b2bweb.fr/wp-content/uploads/js-logo-badge-512.png" width="5%" style="top:200px; position: absolute; display:none;"></apex:image>
+  <apex:outputPanel>
+    <apex:image id="someImage" url="http://www.b2bweb.fr/wp-content/uploads/js-logo-badge-512.png" width="5%" style="top:40px; right: 25%; position: absolute; display:none;"></apex:image>
+  </apex:outputPanel>
+  <apex:outputPanel id="accountList" style="top:200px; position: absolute;">
+
+  </apex:outputPanel>
 
   <apex:remoteObjects >
     <apex:remoteObjectModel name="Account" jsShorthand="acct_jsShorthand"
       fields="Name,Id,website,Site,CreatedDate">
     </apex:remoteObjectModel>
   </apex:remoteObjects>
-
-  <script src="{!URLFOR($Resource.demo2_js)}"></script>
 
 </apex:page>

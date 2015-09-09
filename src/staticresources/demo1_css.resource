@@ -22,7 +22,6 @@ div#jsDemoCode {
   white-space: pre;
   overflow: hidden;
   width: 75%;
-  position:absolute;
 }
 
 div#jsDemoSelector {
