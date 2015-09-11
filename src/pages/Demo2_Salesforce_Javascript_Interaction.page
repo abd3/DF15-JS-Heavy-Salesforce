@@ -18,28 +18,27 @@
      <th><p class="slds-text-heading--label">Javascript Remoting</p></th>
      <tr>
         <td>
-           <button onclick="retrieveAccounts()">Retrieve</button>
+           <button class="slds-button slds-button--neutral" onclick="retrieveAccounts()">Retrieve</button>
            <br /><br />
-           <button onclick="updateAccountsWithRemoteObjects()">Update Selected</button>
+           <button class="slds-button slds-button--neutral" onclick="updateAccountsWithRemoteObjects()">Update Selected</button>
            New Site Value:
            <input type="text" id="newSiteValue" />
         </td>
         <td valign="top">
-           <button onclick="updateAccountsWithJavaScriptRemoting()">Update Selected</button>
+           <button class="slds-button slds-button--neutral" onclick="updateAccountsWithJavaScriptRemoting()">Update Selected</button>
         </td>
      </tr>
   </table>
 
-<br/>
-  <div id="accountList"/>
 
 <!-- uncomment for Create & Delete  <button onclick="createAccount()">Create</button>  Name:<input type="text" Id="acctName" size="28" value="Benioff Inc"/>  Site:<input type="text" Id="acctSite" size="28" value="HQ"/><br/><br/>  <button onclick="deleteAccounts()">Delete Selected</button> -->
 
+<br/>
+  <div id="accountList"/>
 
-
-
-  <!-- ######################## Remote Objects definition to set accessible sObjects and fields ######################## -->
-  <!--controller not required for remote objects, required for js remoting-->
+  <!-- ## Remote Objects definition to set accessible sObjects and fields ##-->
+  <!--controller not required for remote objects, 
+       required for js remoting, neither counts as API call-->
 
   <apex:remoteObjects >
     <apex:remoteObjectModel name="Account" jsShorthand="acct_jsShorthand"
@@ -47,7 +46,7 @@
     </apex:remoteObjectModel>
   </apex:remoteObjects>
 
-  <!-- ######################## JavaScript to make Remote Objects calls (load AFTER the above block) ################### -->
+  <!-- ## JavaScript to make Remote Objects calls (load AFTER the above block) ##-->
 
   <script src="{!URLFOR($Resource.demo2_js)}"></script>
 
@@ -56,3 +55,10 @@
   <!-- / REQUIRED SLDS WRAPPER -->    
 </html>
 </apex:page>
+
+
+
+
+
+
+

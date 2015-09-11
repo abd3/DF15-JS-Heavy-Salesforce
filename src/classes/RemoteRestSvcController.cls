@@ -33,6 +33,7 @@ global with sharing class RemoteRestSvcController {
         res.addHeader('Content-Type', 'application/json');
       }
       else{
+          res.addHeader('Content-Type', 'text');
           res.responseBody = Blob.valueOf('not going to work');
       }
     }
@@ -44,7 +45,7 @@ global with sharing class RemoteRestSvcController {
         recordsJSON = JSON.serializePretty(cases);
       }
       else{
-        recordsJSON='{"data": [[             "Tiger Nixon",             "System Architect",             "Edinburgh",             "5421",             "2011/04/25",             "$320,800"         ],         [             "Garrett Winters",             "Accountant",             "Tokyo",             "8422",             "2011/07/25",             "$170,750"         ]]}';
+        recordsJSON='{"data": [["Tiger Nixon","System Architect","Edinburgh","5421","2011/04/25","$320,800"         ],         ["Garrett Winters","Accountant","Tokyo","8422","2011/07/25","$170,750"         ]]}';
       }
 
       return recordsJSON;

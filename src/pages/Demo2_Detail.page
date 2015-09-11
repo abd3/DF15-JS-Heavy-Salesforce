@@ -23,26 +23,38 @@
       </tr>
   </table>
 
-<br/><br/><br/>
-ADD Callback to visibile params
+<br/><br/>
 
-<table border="1">
+<table class="slds-table">
    <tr>
-      <td><input value="JSONP" type="button" onclick="jsonp();" /></td>
-      <td><input value="CORS" type="button" onclick="cors();" /></td>
-      <td><input value="NO CORS Header" type="button" onclick="noCORSHeader();" /></td>
+      <td><input class="slds-button slds-button--neutral" value="Cross Origin" type="button" onclick="noCORSHeader();" /></td>      
    </tr>
+   <tr><td colspan="3">
+        <div id="responseDivNOCORS"/>
+   </td></tr>
    <tr>
-      <td>t1<table id="cases_table" class="slds-table slds-table--bordered"/></td>
-      <td>t2<table id="tasks_table" class="slds-table slds-table--bordered"/></td>
-      <td>t3<div id="no cors error msg"/></td>      
-
+      <td><input class="slds-button slds-button--neutral" value="JSONP" type="button" onclick="jsonp();" /></td>
    </tr>
+   <tr><td colspan="3">
+        <div id="responseDivJSONP"/>
+   </td></tr>
+   <tr>
+      <td><input class="slds-button slds-button--neutral" value="CORS" type="button" onclick="cors();" /></td>
+   </tr>
+   <tr><td colspan="3">
+        <div id="responseDivCORS"/>
+   </td></tr>
 </table>
+
+
+<!--      <td>t1<table id="cases_table" class="slds-table slds-tableX-bordered"/></td>
+      <td>t2<table id="tasks_table" class="slds-table slds-tableX-bordered"/></td>
+      <td>t3<div id="no cors error msg"/></td>      -->
+
 
 <script>
 var apiUrl="{!$Label.External_Service_Url}";
-
+// -----------------   ----------------- //  
 function jsonp(){ 
   console.log('Calling External JSONP Service');
 
@@ -59,71 +71,103 @@ function jsonp(){
         });
 }  
 
-// -----------------   ----------------- //  
 function mycallback(data){
   console.log('callback invoked');  
+  readyDiv('JSONP');
   console.log(JSON.stringify(data, null, 2));
   showTable(data);
 };
 
 
 function showTable(dataSet){
-
-$(document).ready(function() {
-    $('#cases_table').DataTable( {
-        aaData: dataSet,
-        aoColumns: [
-            { "mData": "Contact.Name" }, 
-            { "mData": "Subject" }
-        ],
-        "bPaginate": false,
-        "bFilter": false        
-    } );
-} );
+  $(document).ready(function() {
+      $('#JSONP_table').DataTable( {
+          aaData: dataSet,
+          aoColumns: [
+              { "mData": "Contact.Name" }, 
+              { "mData": "Subject" }
+          ],
+          "bPaginate": false,
+          "bFilter": false,
+          "bSort": false,
+      } );
+  } );
 }
 
+
+
+
+
+
+
+// -----------------   ----------------- //  
+function cors(){
+    console.log('Service being called is adding the following to the response');  
+    console.log('Access-Control-Allow-Origin = https://c.na31.visual.force.com');
+    console.log('Content-Type = application/json');
+
+    readyDiv('CORS');
+
+    var fUrl = apiUrl+"&type=CORS";
+    $('#CORS_table').DataTable( {
+        ajax: fUrl,
+        aoColumns: [ { sWidth: "45%" }, { sWidth: "45%" }, { sWidth: "10%", bSearchable: false, bSortable: false } ]
+    } );
+}
+
+
+
+
+
+
+
+
+// -----------------   ----------------- //  
 function noCORSHeader(){ 
 //without CORS header being set on service side 
 // No 'Access-Control-Allow-Origin' header is present on the requested resource. Origin 'x' is therefore not allowed access.
 
-  console.log('Calling External CORS Service');
+  console.log('Calling External Service that is not setting a CORS header');
+  var fUrl = apiUrl+"&callback=mycallback&type=noCORSHeader";
 
-/*
-    $('#tasks_table').DataTable( {
-        ajax: "{!$Label.External_Service_Url}&type=CORS"
-    } );
-*/
-
-  var fUrl = apiUrl+"&type=noCORSHeader";
   $.ajax({
         type: 'GET',
         dataType: "json",
         url:fUrl,
         cache: 'false',
-        complete:function(data){
-          console.log(JSON.stringify(data));
-        },
         failure:function(err){
-               console.log('error using CORS '+ err);
-           }     
+            //console.log('error using CORS '+ err);
+           },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+          showNoACHeaderMsg();
+           }                
         });    
-
 }
 
-function cors(){
-    var fUrl = apiUrl+"&type=CORS";
-    $('#tasks_table').DataTable( {
-        ajax: fUrl,
-        "bFilter": false,
-        "bPaginate": false,
-        bSort: false,
-        aoColumns: [ { sWidth: "45%" }, { sWidth: "45%" }, { sWidth: "10%", bSearchable: false, bSortable: false } ]
-    } );
 
 
+
+
+
+
+
+
+
+function readyDiv(which){
+  var responseDiv = document.getElementById('responseDiv'+which);
+  responseDiv.innerHTML='';
+  responseDiv.innerHTML = '<table id="'+which+'_table" class="slds-table slds-table--bordered"/>';
+}
+
+function showNoACHeaderMsg(){
+  responseDivNOCORS.innerHTML="<center><font color='red'><b>No 'Access-Control-Allow-Origin' header is present on the requested resource.<br/>Origin 'https://c.na31.visual.force.com' is therefore not allowed access.'</b></font></center>";
 }
 
 </script>
+
+
+
+
 
   </div>
   <!-- / REQUIRED SLDS WRAPPER -->    

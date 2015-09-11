@@ -6,6 +6,7 @@ var retrieveAccounts = function(){
   // Create a new Remote Object
   var acct = new SObjectModel.acct_jsShorthand();
 
+  //callback for retrieve
   var processRetrievedRecords = function(err, records, event){
     var htmlString=getDataTablePre();
     acctDiv.innerHTML='';
@@ -28,10 +29,6 @@ var retrieveAccounts = function(){
 
     acctDiv.innerHTML=htmlString;
 
-    $('#remoteObjectsTable').DataTable({
-           // "iDisplayLength": 50,
-            "bPaginate": false,
-            "bFilter": false});
     setCheck();
   };
 
@@ -177,7 +174,8 @@ function getDataTablePre(){
     fields+='        <th>Last Modified</th>';
     fields+='      </tr>';
 
-  var returnString ='<table id="remoteObjectsTable" class="display" cellspacing="0" width="100%">';
+//  var returnString ='<table id="remoteObjectsTable" class="display" cellspacing="0" width="100%">';
+  var returnString ='<table id="remoteObjectsTable" class="slds-table" cellspacing="0" width="100%">';
     returnString+='    <thead>';
     returnString+=     fields;
     returnString+='    </thead>';
