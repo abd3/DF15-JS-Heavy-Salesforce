@@ -27,7 +27,8 @@
 
 <table class="slds-table">
    <tr>
-      <td><input class="slds-button slds-button--neutral" value="Cross Origin" type="button" onclick="noCORSHeader();" /></td>      
+      <td><input class="slds-button slds-button--neutral" value="Cross Origin" type="button" onclick="noCORSHeader();" />
+      </td>      
    </tr>
    <tr><td colspan="3">
         <div id="responseDivNOCORS"/>
@@ -161,6 +162,10 @@ function readyDiv(which){
 
 function showNoACHeaderMsg(){
   responseDivNOCORS.innerHTML="<center><font color='red'><b>No 'Access-Control-Allow-Origin' header is present on the requested resource.<br/>Origin 'https://c.na31.visual.force.com' is therefore not allowed access.'</b></font></center>";
+}
+
+function removeNoACHeaderMsg(){
+  responseDivNOCORS.innerHTML='';
 }
 
 </script>

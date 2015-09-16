@@ -43,11 +43,9 @@ var retrieveAccounts = function(){
 };
 
 
-
-
-
+// -----------------   ----------------- //  
 function updateAccountsWithRemoteObjects(){
-  //bulk updates are uniform from Remote Objects. can only have one value for all records that are being updated.
+  /*bulk updates are uniform from Remote Objects*/
   console.log('Updating account(s) by Remote Objects');
   var newSiteValue = document.getElementById('newSiteValue').value;
   var acctsToUpdate = [];
@@ -57,6 +55,7 @@ function updateAccountsWithRemoteObjects(){
 
   if (acctsToUpdate.length > 0){
     var acct = new SObjectModel.acct_jsShorthand();
+    //records and one value
     acct.update(
       acctsToUpdate,
       { Site: newSiteValue},
@@ -75,16 +74,14 @@ function updateAccountsWithRemoteObjects(){
 
 
 
-
+// -----------------   ----------------- //  
 function updateAccountsWithJavaScriptRemoting(){
   console.log('Updating account(s) by JavaScript Remoting');
   var acctArray = [];
 
   var records = getSelectedAccounts();
-  //console.log(records);
-
   records.forEach(function(record) {
-    var acct = {};
+    var acct = {};//acct object
     acct.Id = record;
     acct.Site = document.getElementById('Site_'+record).value;
     acctArray.push(acct);

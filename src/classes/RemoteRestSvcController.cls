@@ -34,7 +34,7 @@ global with sharing class RemoteRestSvcController {
       }
       else{
           res.addHeader('Content-Type', 'text');
-          res.responseBody = Blob.valueOf('not going to work');
+          res.responseBody = Blob.valueOf('<a href="'+Label.External_Service_Url+'&type=JSONP&callback=myCallback&wait=0">/RemoteRestSvc?callback=myCallback&type=JSONP</a>');
       }
     }
 /*----------*/
@@ -45,7 +45,7 @@ global with sharing class RemoteRestSvcController {
         recordsJSON = JSON.serializePretty(cases);
       }
       else{
-        recordsJSON='{"data": [["Tiger Nixon","System Architect","Edinburgh","5421","2011/04/25","$320,800"         ],         ["Garrett Winters","Accountant","Tokyo","8422","2011/07/25","$170,750"         ]]}';
+        recordsJSON='{"data": [["Laurel Meyer","System Architect","Edinburgh","5421","2011/04/25","$320,800"         ],         ["Marley Paige","Accountant","Tokyo","8422","2011/07/25","$170,750"         ]]}';
       }
 
       return recordsJSON;
