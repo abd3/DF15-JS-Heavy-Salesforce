@@ -30,7 +30,7 @@
   </div>
   <apex:outputPanel >
     <apex:outputPanel id="namedSpan">
-      <apex:outputPanel>
+      <apex:outputPanel >
         <apex:image id="someImage" url="http://www.b2bweb.fr/wp-content/uploads/js-logo-badge-512.png" width="5%" style="top:40px; right: 25%; position: absolute;"></apex:image>
       </apex:outputPanel>
     </apex:outputPanel>

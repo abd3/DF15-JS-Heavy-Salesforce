@@ -79,6 +79,10 @@
         <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
+        <apexPage>Demo1_JavascriptConcepts2</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
         <apexPage>Demo2_Detail</apexPage>
         <enabled>false</enabled>
     </pageAccesses>
