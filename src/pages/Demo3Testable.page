@@ -2,7 +2,6 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.js"></script>
   <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.js"></script>
   <script>
-    // Load this BEFORE any other scripts that depend on it
     var controller = {
       variable: "{!controllerVariable}",
       list: JSON.parse('{!controllerListAsJSON}'),
