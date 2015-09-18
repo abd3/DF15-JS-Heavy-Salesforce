@@ -1,5 +1,6 @@
 @RestResource(urlMapping='/RemoteRestSvc/*')
 global with sharing class RemoteRestSvcController {
+  //publicly accessible and exposed in the demo through a force.com site to get a different domain than the vf pages served from within the sfdc app
 
 @HttpGet
     global static void getStuff() {
@@ -32,6 +33,12 @@ global with sharing class RemoteRestSvcController {
         res.addHeader('Access-Control-Allow-Origin', 'https://c.na31.visual.force.com');
         res.addHeader('Content-Type', 'application/json');
       }
+      else if (type == 'CORS_Employees'){
+        res.responseBody = Blob.valueOf(body);
+        res.addHeader('Access-Control-Allow-Origin', 'https://employees.org');
+        res.addHeader('Content-Type', 'application/json');
+      }
+
       else{
           res.addHeader('Content-Type', 'text');
           res.responseBody = Blob.valueOf('<a href="'+Label.External_Service_Url+'&type=JSONP&callback=myCallback&wait=0">/RemoteRestSvc?callback=myCallback&type=JSONP</a>');
